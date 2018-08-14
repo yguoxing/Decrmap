@@ -20,8 +20,8 @@ module.exports = {
     minify: {
       removeAttributeQuotes: true
     },
-    hash: true
-    // template: './resources/index.html'
+    hash: true,
+    template: './demo/index.html'
   })],
   module: {
     rules: [{

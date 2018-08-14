@@ -10,5 +10,10 @@ export default class Osm extends MapBase {
 
     addMap(mapId, options){
         super.addMap(mapId, options);
+        this.olMap.addLayer(new ol.layer.Tile({
+            source: new ol.source.OSM({
+                url: 'http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            })
+        }))
     }
 }

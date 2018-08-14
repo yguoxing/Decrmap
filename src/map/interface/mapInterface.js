@@ -1,3 +1,7 @@
+
+
+import { removeMap } from './removeMap';
+
 import { addBaiduMap } from './addBaidu';
 import { addGaodeMap } from './addGaode';
 import { addGoogleMap } from './addGoogle';
