@@ -1,5 +1,4 @@
 import { Log } from '../dataUtil/consoleLog';
-import { geoUtil } from '../dataUtil/geoUtil';
 import ol from 'openlayers';
 import { mapCtrl } from '../map/mapCtrl';
 
@@ -12,10 +11,25 @@ export default class LayerBase {
     }
 
     addLayer(options){
+
         let existLayer = mapCtrl.getMapObj(options.mapId).DLayer.filter(ele => {
             return ele.layerId === options.layerId
         });
-        return existLayer.length === 0
+        if(existLayer.length !== 0){
+            Log.warn('Add layer ' + options.layerId + ' already exists');
+            return
+        }
+
+        let layerInstance = new ol.layer.Vector({
+            source: new ol.source.Vector({})
+        });
+        layerInstance.set('layerId', options.layerId);
+        this.layerId = options.layerId;
+        this.olLayer = layerInstance;
+
+        mapCtrl.getMapObj(options.mapId).olMap.addLayer(layerInstance);
+        mapCtrl.getMapObj(options.mapId).DLayer.push(this);
+        options.callback(options.layerId);
     }
 
     setData(layerId, data){

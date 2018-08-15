@@ -1,6 +1,9 @@
+import ol from 'openlayers';
+import projzh from 'projzh';
 import MapBase from './MapBase';
 import { CONST } from '../dataUtil/constant';
 import { Log } from '../dataUtil/consoleLog';
+
 
 export default class Baidu extends MapBase {
 
@@ -10,5 +13,6 @@ export default class Baidu extends MapBase {
 
     addMap(mapId, options){
         super.addMap(mapId, options);
+
     }
 }

@@ -13,6 +13,17 @@ function getLayerIns(options){
     })
     return layerIns[0];
 }
+
+function getAllLayerList(mapId){
+
+}
+
+function removeAllLayer(mapId){
+
+}
+
+
+
 layerCtrl = {
     isLayerExist: isLayerExist,
     getLayerIns: getLayerIns

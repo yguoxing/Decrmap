@@ -14,7 +14,8 @@ module.exports = {
   plugins: [
     new uglify(),
     new webpack.ProvidePlugin({
-      ol: 'openlayers'
+      ol: 'openlayers',
+      projzh: 'projzh'
     }),
     new htmlPlugin({
     minify: {

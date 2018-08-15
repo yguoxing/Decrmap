@@ -3,7 +3,6 @@ import { Log } from '../dataUtil/consoleLog';
 import LayerBase from "./LayerBase";
 import { CONST } from '../dataUtil/constant';
 import { mapCtrl } from '../map/mapCtrl';
-import { geoUtil } from '../dataUtil/geoUtil';
 
 export default class CirclePoint extends LayerBase {
 
@@ -23,52 +22,25 @@ export default class CirclePoint extends LayerBase {
     }
     
     addLayer(options){
-        if(!super.addLayer(options)){
-            Log.warn('Add layer ' + options.layerId + ' already exists');
-            return
-        }
-        let layerInstance = new ol.layer.Vector({
-            source: new ol.source.Vector({})
-        });
-        this.layerId = options.layerId;
-        this.olLayer = layerInstance;
-        mapCtrl.getMapObj(options.mapId).DLayer.push(this);
-        options.callback(options.layerId);
+        super.addLayer(options);
     }
 
     setData(options){
+
         var pointFeaArr = options.data.map(ele => {
             let pointFea = new ol.Feature({
-                geometry: new ol.geom.MultiPoint(
-                    ele.point.map(e => {
-                        return geoUtil.projTo3857(e);
-                    })
-                )
+                geometry: new ol.geom.MultiPoint(ele.point).transform('EPSG:4326','EPSG:3857')
             });
+            ele.style = ele.style || {};
             pointFea.setStyle(new ol.style.Style({
-               /*  fill: new ol.style.Fill({
-                    color: this.defaultStyle.fill.color || ele.style.fillColor
-                }),
-                stroke: new ol.style.Stroke({
-                    color: this.defaultStyle.stroke.color || ele.style.strokeColor,
-                    width: this.defaultStyle.stroke.width || ele.style.strokeWidth
-                }), */
                 image: new ol.style.Circle({
-                    // radius: this.defaultStyle.radius || ele.radius,
-                    // fill: new ol.style.Fill({
-                    //     color: this.defaultStyle.fill.color || ele.style.fillColor
-                    // }),
-                    // stroke: new ol.style.Stroke({
-                    //     color: this.defaultStyle.stroke.color || ele.style.strokeColor,
-                    //     width: this.defaultStyle.stroke.width || ele.style.strokeWidth
-                    // })
-                    radius: 26,
+                    radius: ele.radius || this.defaultStyle.radius,
                     fill: new ol.style.Fill({
-                        color: '#FF0000'
+                        color: ele.style.fillColor || this.defaultStyle.fill.color
                     }),
                     stroke: new ol.style.Stroke({
-                        color: '#FF0000',
-                        width: 2
+                        color: ele.style.strokeColor || this.defaultStyle.stroke.color,
+                        width: ele.style.strokeWidth || this.defaultStyle.stroke.width
                     })
                 })
             }))
@@ -77,5 +49,6 @@ export default class CirclePoint extends LayerBase {
 
         this.olLayer.getSource().addFeatures(pointFeaArr);
         this.data = options.data;
+
     }
 }

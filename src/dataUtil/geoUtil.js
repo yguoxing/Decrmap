@@ -1,6 +1,5 @@
 import ol from 'openlayers';
 
-
 let geoUtil = {};
 
 /**
