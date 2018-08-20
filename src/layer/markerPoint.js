@@ -31,7 +31,8 @@ export default class MarkerPoint extends LayerBase {
                     src: ele.src,
                     offset: ele.offset || this.defaultStyle.offset
                 })
-            }))
+            }));
+            pointFea.setId(ele.id);
             return pointFea;
         });
 

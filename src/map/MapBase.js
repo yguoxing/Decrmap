@@ -16,7 +16,9 @@ export default class MapBase {
             target: mapId,
             view: new ol.View({
                 center: geoUtil.projTo3857(options.defaultCenter || [0,0]),
-                zoom: options.zoom || 9
+                zoom: options.zoom || 9,
+                minZoom: 0,
+                maxZoom: 20
             })
         });
         this.olMap = mapObj;

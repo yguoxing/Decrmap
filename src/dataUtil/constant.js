@@ -13,6 +13,17 @@ const CONST = {
         POLYGON: 'POLYGON',
         SECTOR: 'SECTOR'
     },
+    EVENTTYPE: {
+        SINGLECLICK: 'SINGLECLICK',
+        DOUBLECLICK: 'DOUBLECLICK',
+        MOVEEND: 'MOVEEND'
+    },
+    OPENTYPE: {
+        PUBLIC: 'PUBLIC',
+        INTERNAL: 'INTERNAL'
+    },
+    MAPEVENTLAYER: 'decrmap_allLayer',
+    MAPUTILLAYER: 'decrmap_utilLayer',
     DEBUG: {
         SHOWLOG: false
     }

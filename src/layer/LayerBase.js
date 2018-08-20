@@ -7,6 +7,7 @@ export default class LayerBase {
     constructor(options) {
         this.layerId = null;
         this.data = [];
+        this.labelName = '';
         this.olLayer = null;
     }
 
@@ -21,7 +22,7 @@ export default class LayerBase {
         }
 
         let layerInstance = new ol.layer.Vector({
-            source: new ol.source.Vector({})
+            source: new ol.source.Vector({wrapX: false})
         });
         layerInstance.set('layerId', options.layerId);
         this.layerId = options.layerId;
@@ -29,7 +30,9 @@ export default class LayerBase {
 
         mapCtrl.getMapObj(options.mapId).olMap.addLayer(layerInstance);
         mapCtrl.getMapObj(options.mapId).DLayer.push(this);
-        options.callback(options.layerId);
+        if(options.callback){
+            options.callback(options.layerId);
+        }
     }
 
     setData(layerId, data){

@@ -68,9 +68,9 @@ export default class Line extends LayerBase {
         }
         //计算箭头点
         const arrowRadius = 6;
-        let XPos = lineVector[0] > 0?1:-1, YPos = lineVector[1] > 0?-1:1;
+        let YPos = lineVector[1] > 0?-1:1;
         let pixPoint = mapCtrl.getMapObj(mapId).olMap.getPixelFromCoordinate(geoUtil.projTo3857(ele.point[1]));
-        let centerPix = [pixPoint[0] - arrowRadius * Math.cos(lineAngle), pixPoint[1] - arrowRadius * Math.sin(lineAngle) * YPos];
+        let centerPix = [pixPoint[0] - arrowRadius * Math.cos(lineAngle), pixPoint[1] - arrowRadius * Math.abs(Math.sin(lineAngle)) * YPos];
         let center = mapCtrl.getMapObj(mapId).olMap.getCoordinateFromPixel(centerPix);
 
         let arrowStyle = new ol.style.Style({

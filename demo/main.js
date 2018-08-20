@@ -1,15 +1,47 @@
 var mapId = 'mapBox'
 
 window.onload = function(){
-    initMap();
+    // initOSMMap();
+    // initBaiduMap();
+    // initGaodeMap();
+    initGoogleMap();
     addCirclePoint();
     addPolygon();
     addMarkerPoint();
     addLine();
+    // getCurrentPos();
+    openMeasDis();
 }
 
-function initMap(){
+function getCurrentPos(){
+    if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function (position) {  
+                console.log( position.coords.longitude );
+                console.log( position.coords.latitude );
+            },
+            function (e) {
+               throw(e.message);
+            }
+        )
+    }
+}
+
+
+function initOSMMap(){
     DMap.Map.addOsmMap(mapId, {defaultCenter: [116,40]});
+}
+
+function initBaiduMap(){
+    DMap.Map.addBaiduMap(mapId, {defaultCenter: [108.9290, 34.2583],zoom: 15});
+}
+
+function initGaodeMap(){
+    DMap.Map.addGaodeMap(mapId, {defaultCenter: [116,40]});
+}
+
+function initGoogleMap(){
+    DMap.Map.addGoogleMap(mapId, {defaultCenter: [116,40]});
 }
 
 function addCirclePoint(){
@@ -73,13 +105,13 @@ function addLine(){
     var radius = 0.3;
     var center = [116.35, 39]
     var data = [];
-    for(var i=0;i<1;i++){
+    for(var i = 0; i < 1; i++){
         var angle = i/180 * Math.PI;
         data.push({
             // point: [center, [center[0] + Math.cos(angle)*radius, center[1] + Math.sin(angle)*radius]],
             point:[center, [116,40]],
             style: {
-                color: '#00FF00',
+                color: '#FF0000',
                 width: 3,
                 arrow: true
             }
@@ -96,4 +128,8 @@ function addLine(){
             })
         }
     })
+}
+
+function openMeasDis(){
+    DMap.MapUtil.openMeasureDistance({mapId: mapId});
 }
