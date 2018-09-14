@@ -137,21 +137,30 @@ var CONST = {
 function measureDistance(){
     DMap.MapUtil.openMeasureDistance({
         mapId: mapId,
-        active: true
+        active: true,
+        callback: function(param){
+            console.log('measure distance', param);
+        }
     })
 }
 
 function measureAngle(){
     DMap.MapUtil.openMeasureAngle({
         mapId: mapId,
-        active: true
+        active: true,
+        callback: function(param){
+            console.log('measure angle', param);
+        }
     })
 }
 
 function measureArea(){
     DMap.MapUtil.openMeasureArea({
         mapId: mapId,
-        active: true
+        active: true,
+        callback: function(param){
+            console.log('measure area', param);
+        }
     })
 }
 

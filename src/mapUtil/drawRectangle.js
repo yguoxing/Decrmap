@@ -1,8 +1,11 @@
+/**
+ * 手绘矩形
+ * 以用户绘制的两点为对角线，生成外截矩形
+ */
+
 import ol from 'openlayers';
 import MapUtilBase from './MapUtilBase';
 import { mapCtrl } from '../map/mapCtrl';
-import { layerCtrl } from '../layer/layerCtrl';
-import { CONST } from '../dataUtil/constant';
 import { geoUtil } from '../dataUtil/geoUtil';
 
 export default class DrawRectangle extends MapUtilBase {
@@ -20,7 +23,7 @@ export default class DrawRectangle extends MapUtilBase {
             wrapX: false,
             maxPoints: 2,
             stopEvent: true,
-            source: layerCtrl.getLayerIns(options).olLayer.getSource(),
+            source: this.getUtilSource(),
             style: new ol.style.Style({
                 stroke: new ol.style.Stroke({
                     color: this.style.stroke.color,
@@ -38,7 +41,7 @@ export default class DrawRectangle extends MapUtilBase {
                 })
             }),
             geometryFunction: function(e, geometry){
-                self._drawing.call(self, e);
+                self._drawing(e);
                 if(!geometry){
                     geometry=new ol.geom.LineString(null);
                 }
@@ -51,7 +54,7 @@ export default class DrawRectangle extends MapUtilBase {
         this.drawInter.setActive(options.active);
         
         this.drawInter.on('drawend', function(e){
-            self._drawEnd.call(self, e);
+            self._drawEnd(e);
         });
 
         this.drawInter.on('drawstart', function(e){
@@ -70,7 +73,7 @@ export default class DrawRectangle extends MapUtilBase {
         mapCtrl.getMapObj(this.mapId).olMap.addOverlay(overlay);
         var self = this;
         popHtml.lastChild.addEventListener('click', function(e){
-            self.closeUtil.call(self);
+            self.closeUtil();
         });
         if(this.callback){
             let coordinate = this.points.map(e => {
@@ -89,6 +92,10 @@ export default class DrawRectangle extends MapUtilBase {
 
     }
 
+    /**
+     * 实时计算并展示矩形
+     * @param {Array} point 对角线定点
+     */
     _drawing(point){
         let olMap = mapCtrl.getMapObj(this.mapId).olMap;
         let utilSource = this.getUtilSource();
@@ -133,18 +140,13 @@ export default class DrawRectangle extends MapUtilBase {
     }
 
     closeUtil(){
-        let olMap = mapCtrl.getMapObj(this.mapId).olMap;
-        var overlayArr = olMap.getOverlays().getArray();
-        for(var i = overlayArr.length - 1; i >= 0; i--){
-            if(overlayArr[i].get('popId') === this.popId){
-                olMap.removeOverlay(overlayArr[i]);
-            }
-        }
+        this.removeOverlay([this.popId]);
         
         let utilSource = this.getUtilSource();
         let outerFea = utilSource.getFeatureById(this.rectangleId);
         utilSource.removeFeature(outerFea);
 
+        let olMap = mapCtrl.getMapObj(this.mapId).olMap;
         olMap.removeInteraction(this.drawInter);
         this.setActive(false);
     }

@@ -1,8 +1,10 @@
+/**
+ * 绘制点
+ */
+
 import ol from 'openlayers';
 import MapUtilBase from './MapUtilBase';
 import { mapCtrl } from '../map/mapCtrl';
-import { layerCtrl } from '../layer/layerCtrl';
-import { CONST } from '../dataUtil/constant';
 import { geoUtil } from '../dataUtil/geoUtil';
 
 export default class DrawPoint extends MapUtilBase {
@@ -18,7 +20,7 @@ export default class DrawPoint extends MapUtilBase {
             wrapX: false,
             maxPoints: 1,
             stopEvent: true,
-            source: layerCtrl.getLayerIns(options).olLayer.getSource(),
+            source: this.getUtilSource(),
             style: new ol.style.Style({
                 stroke: new ol.style.Stroke({
                     color: this.style.stroke.color,
@@ -41,7 +43,7 @@ export default class DrawPoint extends MapUtilBase {
         this.drawInter.setActive(options.active);
         
         this.drawInter.on('drawend', function(e){
-            self._drawEnd.call(self, e);
+            self._drawEnd(e);
         });
 
         this.drawInter.on('drawstart', function(e){
@@ -76,7 +78,7 @@ export default class DrawPoint extends MapUtilBase {
         mapCtrl.getMapObj(this.mapId).olMap.addOverlay(overlay);
         var self = this;
         popHtml.lastChild.addEventListener('click', function(e){
-            self.closeUtil.call(self);
+            self.closeUtil();
         });
         if(this.callback){
             this.callback({
@@ -104,22 +106,13 @@ export default class DrawPoint extends MapUtilBase {
     }
 
     closeUtil(){
-        const options = {
-            mapId: this.mapId,
-            layerId: CONST.MAPUTILLAYER
-        };
-        let olMap = mapCtrl.getMapObj(this.mapId).olMap;
-        var overlayArr = olMap.getOverlays().getArray();
-        for(var i = overlayArr.length - 1; i >= 0; i--){
-            if(overlayArr[i].get('popId') === this.popId){
-                olMap.removeOverlay(overlayArr[i]);
-            }
-        }
+        this.removeOverlay([this.popId]);
 
-        let utilSource = layerCtrl.getLayerIns(options).olLayer.getSource();
+        let utilSource = this.getUtilSource();
         let lineFea = utilSource.getFeatureById(this.utilId);
         utilSource.removeFeature(lineFea);
 
+        let olMap = mapCtrl.getMapObj(this.mapId).olMap;
         olMap.removeInteraction(this.drawInter);
         this.setActive(false);
     }

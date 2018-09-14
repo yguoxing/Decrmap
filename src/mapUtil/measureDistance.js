@@ -1,29 +1,39 @@
+/**
+ * 测距工具，测量实际地理距离
+ * 通过测绘工具变化时触发geometryFunction动态计算距离以及点击时绘制拐点
+ * 注意点：测绘工具只要有变化都会触发geometryFunction，如鼠标位置每更改一次会触发一次
+ *        单击地图时触发一次返回点信息最后两个点重复，双击地图时会触发三次，其中前两次
+ *        与单机类似，最后一次代表测绘结束返回准确的点信息
+ */
 import ol from 'openlayers';
 import MapUtilBase from './MapUtilBase';
-import SingleEvent from '../event/SingleClick';
 import { mapCtrl } from '../map/mapCtrl';
-import { layerCtrl } from '../layer/layerCtrl';
-import { eventCtrl } from '../event/eventCtrl';
-import { CONST } from '../dataUtil/constant';
 import { geoUtil } from '../dataUtil/geoUtil';
 
 export default class MeasureDistance extends MapUtilBase {
 
     constructor(options){
-
+        
         super(options);
+
+        // 测距拐点
         this.points = [];
+        // 存储上次距离
         this.oldDistance = 0;
+
+        // 测距拐点圆Id
         this.circleFeaId = 'circle_' + this.utilId;
+        // 距离弹框Id
         this.popId = 'pop_' + this.utilId;
-        let style = { color: '#FF0000', width: 3 };
+        this.movePopId = 'movePop_' + this.utilId;
+        
         let olMap = mapCtrl.getMapObj(options.mapId).olMap;
         var self = this;
         this.drawInter = new ol.interaction.Draw({
             type: 'LineString',
             wrapX: false,
             stopEvent: true,
-            source: layerCtrl.getLayerIns(options).olLayer.getSource(),
+            source: this.getUtilSource(),
             style: new ol.style.Style({
                 stroke: new ol.style.Stroke({
                     color: this.style.stroke.color,
@@ -36,7 +46,7 @@ export default class MeasureDistance extends MapUtilBase {
                 })
             }),
             geometryFunction: function(e, geometry){
-                self._drawing(e, self);
+                self._drawing(e);
                 if(!geometry){
                     geometry=new ol.geom.LineString(null);
                 }
@@ -55,22 +65,6 @@ export default class MeasureDistance extends MapUtilBase {
         this.drawInter.on('drawstart', function(e){
             e.feature.setId(self.utilId);
         });
-        let param = {
-            mapId: options.mapId,
-            layerId: CONST.MAPUTILLAYER,
-            eventType: CONST.EVENTTYPE.SINGLECLICK,
-            openType: CONST.OPENTYPE.INTERNAL,
-            active: false,
-            callback: function(e){
-                // self._drawing(e,self);
-            }
-        };
-        this.eventIns = new SingleEvent(param);
-        eventCtrl.setSingle({
-            mapId: options.mapId,
-            layerId: CONST.MAPUTILLAYER,
-            eventIns: this.eventIns
-        });
     }
 
     _drawEnd(e, self){
@@ -80,7 +74,10 @@ export default class MeasureDistance extends MapUtilBase {
                 width: self.style.stroke.width
             })
         }));
-        var popHtml = self._createHtml(self._getDistanceTip(true), true);
+        let showDistance = '总长：' + this._dealShow(this.oldDistance);
+
+        var popHtml = self._createHtml(showDistance, true);
+        
         let overlay = new ol.Overlay({
             element: popHtml,
             position: e.feature.getGeometry().getLastCoordinate(),
@@ -90,57 +87,102 @@ export default class MeasureDistance extends MapUtilBase {
         mapCtrl.getMapObj(self.mapId).olMap.addOverlay(overlay);
         overlay.getElement().parentElement.style.zIndex = 10;
         popHtml.lastChild.addEventListener('click', function(e){
-            self.closeUtil.call(self);
+            self.closeUtil();
         });
+        if(this.callback){
+            this.callback({
+                mapId: this.mapId,
+                distance: this.oldDistance,
+                coordinates: this.points
+            })
+        }
         setTimeout(() => {
             this.setActive(false);    
         }, 200);
     }
 
-    _drawing(e, self){
-        if(self.points.length - e.length === 1 || self.points.length - e.length === 0){
-            return;
+    /**
+     * 鼠标移动时获实时更新距离信息
+     * @param {Array} e 测距工具点信息
+     */
+    _drawing(e){
+        if(this.points.length - e.length === 0){
+            return 
         }
-        self.points.push(e[e.length - 2]);
-        
-        self.refreshCircle({mapId: self.mapId,layerId: CONST.MAPUTILLAYER});
+        let position = [0, 0], flag, overlayerId = this.popId;
+        // 鼠标点击地图模式
+        if(e.length - this.points.length === 2){
+            this.points.push(e[e.length - 2]);
+            this.refreshCircle();
+            position = e[e.length - 2];
+            if(this.points.length === 1){
+                flag = 'start';
+            }
+        // 鼠标移动模式
+        }else if(e.length - this.points.length === 1){
+            //鼠标移动时将鼠标位置所在的点添加到this.points方便计算距离，得到距离后在删除该点
+            this.points.push(e[e.length - 1]);
+
+            position = e[e.length - 1];
+            this.removeOverlay([this.movePopId]);
+            flag = 'move';
+            overlayerId = this.movePopId;
+        }
         let overlay = new ol.Overlay({
-            element: self._createHtml(self._getDistanceTip(false)),
-            position: e[e.length - 2],
+            element: this._createHtml(this._getDistanceTip(flag, e)),
+            position: position,
             offset: [8, 4]
         });
-        overlay.set('popId', self.popId);
-        mapCtrl.getMapObj(self.mapId).olMap.addOverlay(overlay);
+        if(flag === 'move'){
+            this.points.pop();
+        }
+        overlay.set('popId', overlayerId);
+        mapCtrl.getMapObj(this.mapId).olMap.addOverlay(overlay);
+    }
+
+    _dealShow(distance){
+        let afterDeal = '';
+        if(distance > 1000){
+            afterDeal = Number((distance/1000).toFixed(2)) + '公里';
+        }else{
+            afterDeal = Number(distance.toFixed(2)) + '米';
+        }
+        return afterDeal;
     }
 
     setActive(flag){
         this.drawInter.setActive(flag);
-        this.eventIns.setActive(flag);
     }
 
-    _getDistanceTip(isEnd){
+    /**
+     * 根据点获取距离信息
+     * @param {String} flag 测距模式
+     * @param {Array} points 测距点
+     */
+    _getDistanceTip(flag, points){
         let tipInfo = '';
         
-        if(this.points.length === 1){
+        if(flag === 'start'){
             tipInfo = '起点';
         }else{
             let lastPoint = geoUtil.projTo4326(this.points[this.points.length-1]);
             let prePoint = geoUtil.projTo4326(this.points[this.points.length-2]);
             let lastDistance = geoUtil.getDistance([prePoint,lastPoint]);
-            if(lastDistance + this.oldDistance > 1000){
-                tipInfo = ((lastDistance + this.oldDistance)/1000).toFixed(2) + ' 公里';
-            }else{
-                tipInfo = Number((lastDistance + this.oldDistance).toFixed(2)) + ' 米';
-            }
-            this.oldDistance = lastDistance + this.oldDistance;
+
+            tipInfo = this._dealShow(lastDistance + this.oldDistance);
             
-            if(isEnd){
-                tipInfo = '总长：' + tipInfo;
+            if(flag !== 'move'){
+                this.oldDistance = lastDistance + this.oldDistance;
             }
         }
         return tipInfo;
     }
 
+    /**
+     * 生成测距显示框
+     * @param {String} content 距离长度信息
+     * @param {Boolean} isEnd 是否为结束显示框
+     */
     _createHtml(content, isEnd){
         var outer = document.createElement('div');
         outer.style.backgroundColor = 'white';
@@ -160,8 +202,12 @@ export default class MeasureDistance extends MapUtilBase {
         return outer;
     }
 
+    /**
+     * 刷新拐点圆圈
+     * @param {Array} options 点信息
+     */
     refreshCircle(options){
-        let source = layerCtrl.getLayerIns(options).olLayer.getSource();
+        let source = this.getUtilSource();
         let circleFea = source.getFeatureById(this.circleFeaId);
         if(circleFea){
             circleFea.setGeometry(new ol.geom.MultiPoint(this.points));
@@ -187,26 +233,16 @@ export default class MeasureDistance extends MapUtilBase {
     }
 
     closeUtil(){
-        const options = {
-            mapId: this.mapId,
-            layerId: CONST.MAPUTILLAYER
-        };
-        let olMap = mapCtrl.getMapObj(this.mapId).olMap;
-        var overlayArr = olMap.getOverlays().getArray();
-        for(var i = overlayArr.length - 1; i >= 0; i--){
-            if(overlayArr[i].get('popId') === this.popId){
-                olMap.removeOverlay(overlayArr[i]);
-            }
-        }
+        this.removeOverlay([this.movePopId, this.popId]);
 
-        let utilSource = layerCtrl.getLayerIns(options).olLayer.getSource();
+        let utilSource = this.getUtilSource();
         let circleFea = utilSource.getFeatureById(this.circleFeaId);
 
         let lineFea = utilSource.getFeatureById(this.utilId);
         utilSource.removeFeature(circleFea);
         utilSource.removeFeature(lineFea);
 
+        let olMap = mapCtrl.getMapObj(this.mapId).olMap;
         olMap.removeInteraction(this.drawInter);
-        this.setActive(false);
     }
 }

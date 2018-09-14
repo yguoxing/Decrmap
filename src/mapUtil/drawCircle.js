@@ -1,8 +1,12 @@
+/***
+ * 绘制圆
+ * 建议地图比例尺小时使用该功能，随着比例尺放大，
+ * 圆所对应的半径会失真
+ */
+
 import ol from 'openlayers';
 import MapUtilBase from './MapUtilBase';
 import { mapCtrl } from '../map/mapCtrl';
-import { layerCtrl } from '../layer/layerCtrl';
-import { CONST } from '../dataUtil/constant';
 import { geoUtil } from '../dataUtil/geoUtil';
 
 export default class DrawCircle extends MapUtilBase {
@@ -21,7 +25,7 @@ export default class DrawCircle extends MapUtilBase {
             wrapX: false,
             maxPoints: 2,
             stopEvent: true,
-            source: layerCtrl.getLayerIns(options).olLayer.getSource(),
+            source: this.getUtilSource(),
             style: new ol.style.Style({
                 stroke: new ol.style.Stroke({
                     color: this.style.stroke.color,
@@ -39,7 +43,7 @@ export default class DrawCircle extends MapUtilBase {
                 })
             }),
             geometryFunction: function(e, geometry){
-                self._drawing.call(self, e);
+                self._drawing(e);
                 if(!geometry){
                     geometry=new ol.geom.LineString(null);
                 }
@@ -52,11 +56,11 @@ export default class DrawCircle extends MapUtilBase {
         this.drawInter.setActive(options.active);
         
         this.drawInter.on('drawend', function(e){
-            self._drawEnd.call(self, e);
+            self._drawEnd(e);
         });
 
         this.drawInter.on('drawstart', function(e){
-            self._addCenterPoint.call(self, e.feature.getGeometry().getCoordinates()[0]);
+            self._addCenterPoint(e.feature.getGeometry().getCoordinates()[0]);
             e.feature.setId(self.utilId);
         });
     }
@@ -72,7 +76,7 @@ export default class DrawCircle extends MapUtilBase {
         mapCtrl.getMapObj(this.mapId).olMap.addOverlay(overlay);
         var self = this;
         popHtml.lastChild.addEventListener('click', function(e){
-            self.closeUtil.call(self);
+            self.closeUtil();
         });
         if(this.callback){
             this.callback({
@@ -89,6 +93,10 @@ export default class DrawCircle extends MapUtilBase {
 
     }
 
+    /**
+     * 以鼠标位置与圆心距离为半径，实时刷新圆
+     * @param {Array} point 顶点信息
+     */
     _drawing(point){
         let olMap = mapCtrl.getMapObj(this.mapId).olMap;
         let utilSource = this.getUtilSource();
@@ -116,7 +124,7 @@ export default class DrawCircle extends MapUtilBase {
                     width: 2
                 }),
                 fill: new ol.style.Fill({
-                    color: 'rgba(206, 113, 125, 0.5)'
+                    color: 'rgba(206, 113, 125, 0.3)'
                 })
             })
         })
@@ -124,6 +132,10 @@ export default class DrawCircle extends MapUtilBase {
         utilSource.addFeature(outerFea);
     }
 
+    /**
+     * 绘制圆心
+     * @param {Array} point 圆心位置
+     */
     _addCenterPoint(point){
         let utilSource = this.getUtilSource();
         let centerFea = new ol.Feature({
@@ -157,13 +169,7 @@ export default class DrawCircle extends MapUtilBase {
     }
 
     closeUtil(){
-        let olMap = mapCtrl.getMapObj(this.mapId).olMap;
-        var overlayArr = olMap.getOverlays().getArray();
-        for(var i = overlayArr.length - 1; i >= 0; i--){
-            if(overlayArr[i].get('popId') === this.popId){
-                olMap.removeOverlay(overlayArr[i]);
-            }
-        }
+        this.removeOverlay([this.popId]);
         
         let utilSource = this.getUtilSource();
         let centerFea = utilSource.getFeatureById(this.centerId);
@@ -172,6 +178,7 @@ export default class DrawCircle extends MapUtilBase {
         let outerFea = utilSource.getFeatureById(this.outerId);
         utilSource.removeFeature(outerFea);
 
+        let olMap = mapCtrl.getMapObj(this.mapId).olMap;
         olMap.removeInteraction(this.drawInter);
         this.setActive(false);
     }

@@ -1,14 +1,12 @@
 import MeasureAngle from "../MeasureAngle";
 import { utilCtrl } from '../mapUtilCtrl';
-import { CONST } from '../../dataUtil/constant'
-import { mapCtrl } from "../../map/mapCtrl";
 
 function openMeasureAngle(options) {
     let param = {
         mapId: options.mapId,
         active: options.active === false? false:true,
         utilId: options.utilId,
-        layerId: CONST.MAPUTILLAYER
+        callback: options.callback || null
     }
     if(!param.active && utilCtrl.isUtilExist(param)){
         utilCtrl.setActive(false);

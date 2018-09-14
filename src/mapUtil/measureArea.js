@@ -1,16 +1,20 @@
+/**
+ * 测夹角
+ * 中心点到初始点形成初始向量，已中心点到结束点形成结束向量，
+ * 夹角为初始向量逆时针指向结束向量，角度取值范围为[0,360];
+ */
+
 import ol from 'openlayers';
 import MapUtilBase from './MapUtilBase';
 import { mapCtrl } from '../map/mapCtrl';
-import { layerCtrl } from '../layer/layerCtrl';
-import { CONST } from '../dataUtil/constant';
 import { geoUtil } from '../dataUtil/geoUtil';
-import { dataHandler } from '../dataUtil/dataHandler';
 
 export default class MeasureAngle extends MapUtilBase {
 
     constructor(options){
 
         super(options);
+
         this.popId = 'pop_' + this.utilId;
         let olMap = mapCtrl.getMapObj(options.mapId).olMap;
         var self = this;
@@ -18,7 +22,7 @@ export default class MeasureAngle extends MapUtilBase {
             type: 'Polygon',
             wrapX: false,
             stopEvent: true,
-            source: layerCtrl.getLayerIns(options).olLayer.getSource(),
+            source: this.getUtilSource(),
             style: new ol.style.Style({
                 stroke: new ol.style.Stroke({
                     color: this.style.stroke.color,
@@ -53,9 +57,10 @@ export default class MeasureAngle extends MapUtilBase {
                     let transformPoint = point[0].map(e => {
                         return geoUtil.projTo4326(e);
                     })
-                    showArea = self._getArea(transformPoint).showArea;
+                    showArea = self._getArea(transformPoint);
                 }
                 
+                // 角度文字样式
                 let textStyle = new ol.style.Text({
                     font: '15px Calibri,sans-serif',
                     fill: new ol.style.Fill({
@@ -64,6 +69,7 @@ export default class MeasureAngle extends MapUtilBase {
                     text: showArea
                 });
 
+                // 扇形样式
                 var contentStyle = new ol.style.Style({
                     fill: new ol.style.Fill({
                         color: 'rgba(206, 113, 125, 0.2)'
@@ -87,7 +93,7 @@ export default class MeasureAngle extends MapUtilBase {
             let transformPoint = point[0].map(e => {
                 return geoUtil.projTo4326(e);
             })
-            showArea = this._getArea(transformPoint).showArea;
+            showArea = this._getArea(transformPoint);
         }
         e.feature.setStyle(new ol.style.Style({
             stroke: new ol.style.Stroke({
@@ -95,7 +101,7 @@ export default class MeasureAngle extends MapUtilBase {
                 width: this.style.stroke.width
             }),
             fill: new ol.style.Fill({
-                color: 'rgba(206, 113, 125, 0.2)'
+                color: 'rgba(206, 113, 125, 0.3)'
             }),
             text: new ol.style.Text({
                 font: '15px Calibri,sans-serif',
@@ -109,7 +115,7 @@ export default class MeasureAngle extends MapUtilBase {
         var points = e.feature.getGeometry().getCoordinates()[0];
         let overlay = new ol.Overlay({
             element: popHtml,
-            offset: [-2, -4],
+            offset: [2, 4],
             position: points[points.length - 2]
         });
         overlay.set('popId', this.popId);
@@ -118,6 +124,14 @@ export default class MeasureAngle extends MapUtilBase {
         popHtml.lastChild.addEventListener('click', function(e){
             self.closeUtil.call(self);
         });
+        if(this.callback){
+            this.callback({
+                mapId: this.mapId,
+                area: this.exactArea,
+                coordinates: this.points
+            })
+        }
+
         setTimeout(() => {
             this.setActive(false);
         }, 200);
@@ -137,38 +151,31 @@ export default class MeasureAngle extends MapUtilBase {
         this.drawInter.setActive(flag);
     }
 
+    /**
+     * 获取实际地理面积
+     * @param {Array} e 测距点信息
+     * @return {Object} area: 实际呈现面积(已四舍五入), exactArea:准确面积(平凡米)
+     */
     _getArea(e){
         let olMap = mapCtrl.getMapObj(this.mapId).olMap;
-
         let pixPoints = e.map(o =>{
             return olMap.getPixelFromCoordinate(o);
         });
         let exactArea = Math.abs(geoUtil.getArea(e));
-        let  area = exactArea > 1000000? (exactArea/1000000).toFixed(2) + '平方公里': exactArea.toFixed(2) + '平方米';
-        return {
-            showArea: area,
-            exactArea: exactArea
-        }
+        let  area = exactArea > 1000000? Number((exactArea/1000000).toFixed(2)) + '平方公里': Number(exactArea.toFixed(2)) + '平方米';
+        this.exactArea = exactArea;
+        this.points = e;
+        return area
     }
 
     closeUtil(){
-        const options = {
-            mapId: this.mapId,
-            layerId: CONST.MAPUTILLAYER
-        };
-        let olMap = mapCtrl.getMapObj(this.mapId).olMap;
-        var overlayArr = olMap.getOverlays().getArray();
-        for(var i = overlayArr.length - 1; i >= 0; i--){
-            if(overlayArr[i].get('popId') === this.popId){
-                olMap.removeOverlay(overlayArr[i]);
-            }
-        }
+        this.removeOverlay([this.popId]);
 
-        let utilSource = layerCtrl.getLayerIns(options).olLayer.getSource();
-
+        let utilSource = this.getUtilSource();
         let lineFea = utilSource.getFeatureById(this.utilId);
         utilSource.removeFeature(lineFea);
 
+        let olMap = mapCtrl.getMapObj(this.mapId).olMap;
         olMap.removeInteraction(this.drawInter);
         this.setActive(false);
     }
