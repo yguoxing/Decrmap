@@ -25,14 +25,8 @@ geoUtil.projTo3857 = function(coordnites){
  * @param {Array} points 
  */
 geoUtil.getDistance = function(points){
-    let sphere = new ol.Sphere({
-        geometry: new ol.geom.LineString(points),
-        options: {
-            projection: 'EPSG:4326',
-            radius: 6370997
-        }
-    });
-    return sphere.getLength();
+    let sphere = new ol.Sphere(6378137);
+    return sphere.haversineDistance(points[0], points[1]);
 }
 
 /**
@@ -40,14 +34,25 @@ geoUtil.getDistance = function(points){
  * @param {Array} points 
  */
 geoUtil.getArea = function(points){
-    let sphere = new ol.Sphere({
-        geometry: new ol.geom.Polygon(points),
-        options: {
-            projection: 'EPSG:4326',
-            radius: 6370997
-        }
-    });
-    return sphere.getArea();
+    let sphere = new ol.Sphere(6378137);
+    return sphere.geodesicArea(points);
+}
+
+geoUtil.loadMask = function(id, flag){
+    const maskId = 'decrmap_mask';
+    if(document.getElementById(maskId)){
+        document.getElementById(maskId).remove();
+    }
+    if(flag){
+        let mask = document.createElement('div');
+        mask.id = maskId;
+        mask.style.height = '100%';
+        mask.style.width = '100%';
+        mask.style.position = 'absolute';
+        mask.style.top = 0;
+        mask.style.left = 0;
+        document.getElementById(id).appendChild(mask);
+    }
 }
 
 export { geoUtil }

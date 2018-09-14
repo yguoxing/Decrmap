@@ -7,7 +7,7 @@ function openMeasureDistance(options) {
     let param = {
         mapId: options.mapId,
         active: options.active === false? false:true,
-        utilId: 'distanceUtilId_3036',
+        utilId: options.utilId,
         layerId: CONST.MAPUTILLAYER
     }
     if(!param.active && utilCtrl.isUtilExist(param)){
@@ -15,7 +15,7 @@ function openMeasureDistance(options) {
     }else if(param.active && !utilCtrl.isUtilExist(param)){
         utilCtrl.removeUtil(param);
         let utilIns = new MeasureDistance(param);
-
+        param.utilId = utilIns.utilId;
         utilCtrl.setUtil({
             ...param,
             utilIns: utilIns

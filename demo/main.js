@@ -10,7 +10,6 @@ window.onload = function(){
     addMarkerPoint();
     addLine();
     // getCurrentPos();
-    openMeasDis();
 }
 
 function getCurrentPos(){
@@ -130,6 +129,78 @@ function addLine(){
     })
 }
 
-function openMeasDis(){
-    DMap.MapUtil.openMeasureDistance({mapId: mapId});
+var CONST = {
+    disStatus: true,
+    angleStatus: true
+}
+
+function measureDistance(){
+    DMap.MapUtil.openMeasureDistance({
+        mapId: mapId,
+        active: true
+    })
+}
+
+function measureAngle(){
+    DMap.MapUtil.openMeasureAngle({
+        mapId: mapId,
+        active: true
+    })
+}
+
+function measureArea(){
+    DMap.MapUtil.openMeasureArea({
+        mapId: mapId,
+        active: true
+    })
+}
+
+function drawPoint(){
+    DMap.MapUtil.drawPoint({
+        mapId: mapId,
+        active: true,
+        callback: function(param){
+            console.log(param);
+        }
+    })
+}
+
+function drawLine(){
+    DMap.MapUtil.drawLine({
+        mapId: mapId,
+        active: true,
+        callback: function(param){
+            console.log(param);
+        }
+    })
+}
+
+function drawCircle(){
+    DMap.MapUtil.drawCircle({
+        mapId: mapId,
+        active: true,
+        callback: function(param){
+            console.log('draw circle', param);
+        }
+    })
+}
+
+function drawPolygon(){
+    DMap.MapUtil.drawPolygon({
+        mapId: mapId,
+        active: true,
+        callback: function(param){
+            console.log('draw polygon', param);
+        }
+    })
+}
+
+function drawRectangle(){
+    DMap.MapUtil.drawRectangle({
+        mapId: mapId,
+        active: true,
+        callback: function(param){
+            console.log('draw rectangle', param);
+        }
+    })
 }

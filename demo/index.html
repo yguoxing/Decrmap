@@ -2,12 +2,22 @@
 <html>
  <head>
    <title>Decrypt Map</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
    <link href="../demo/decrmap.ico" rel="icon" type="image/x-icon"/>
    <link href="../demo/application.css" rel="stylesheet" type="text/css" />
    <script type="text/javascript" src="../demo/main.js"></script>
  </head>
  <body>
-   <div id="mapBox">
-   </div>
+    <div class="buttonCOntent">
+      <button onclick="measureDistance()" >测距</button>
+      <button onclick="measureAngle()" >测夹角</button>
+      <button onclick="measureArea()" >测面积</button>
+      <button onclick="drawPoint()" >画点</button>
+      <button onclick="drawLine()" >画线</button>
+      <button onclick="drawCircle()" >画圆</button>
+      <button onclick="drawPolygon()" >画多边形</button>
+      <button onclick="drawRectangle()" >画矩形</button>
+    </div>
+    <div id="mapBox"></div>
  </body>
 </html>

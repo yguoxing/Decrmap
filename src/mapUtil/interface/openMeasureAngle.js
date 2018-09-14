@@ -1,20 +1,20 @@
-import DrawPoint from "../DrawPoint";
+import MeasureAngle from "../MeasureAngle";
 import { utilCtrl } from '../mapUtilCtrl';
 import { CONST } from '../../dataUtil/constant'
+import { mapCtrl } from "../../map/mapCtrl";
 
-function drawPoint(options) {
+function openMeasureAngle(options) {
     let param = {
         mapId: options.mapId,
         active: options.active === false? false:true,
         utilId: options.utilId,
-        layerId: CONST.MAPUTILLAYER,
-        callback: options.callback
+        layerId: CONST.MAPUTILLAYER
     }
     if(!param.active && utilCtrl.isUtilExist(param)){
         utilCtrl.setActive(false);
     }else if(param.active && !utilCtrl.isUtilExist(param)){
         utilCtrl.removeUtil(param);
-        let utilIns = new DrawPoint(param);
+        let utilIns = new MeasureAngle(param);
         param.utilId = utilIns.utilId;
         utilCtrl.setUtil({
             ...param,
@@ -23,4 +23,4 @@ function drawPoint(options) {
     }
 }
 
-export { drawPoint };
+export { openMeasureAngle };

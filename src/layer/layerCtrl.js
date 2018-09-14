@@ -3,7 +3,11 @@ import { mapCtrl } from '../map/mapCtrl';
 let layerCtrl = {};
 
 function isLayerExist(options){
-    mapCtrl.getMapObj()
+    var layerArr = mapCtrl.getMapObj(options.mapId).DLayer;
+    var filterLayer = layerArr.filter(l => {
+        return l.layerId === options.layerId
+    })[0]
+    return filterLayer?true:false
 }
 
 function getLayerIns(options){

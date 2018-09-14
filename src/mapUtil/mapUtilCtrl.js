@@ -19,10 +19,8 @@ function removeAllUtil(mapId){
 
 function getUtilIns(options){
     let filterIns = null;
-    if(utilCollection[mapId]){
-        filterIns = utilCollection.filter(e => {
-            return e.utilId
-        })[0];
+    if(utilCollection[options.mapId]){
+        return utilCollection[options.mapId][options.utilId] || null
     }
     return filterIns;
 }
@@ -34,6 +32,10 @@ function isUtilExist(options){
 function setActive(options, flag){
     let drawIns = getUtilIns(options);
     drawIns.setActive(flag);
+}
+
+function closeAllUtil(mapId){
+    
 }
 
 let utilCtrl = {

@@ -29,7 +29,7 @@ function getClickData(options){
     let mapIns = mapCtrl.getMapObj(options.mapId);
     let layerIns = mapIns.DLayer.filter(ele => {
         return ele.layerId === options.layerId
-    });
+    })[0];
     return layerIns.data.filter(e => {
         return e.id === options.id
     })
@@ -37,46 +37,54 @@ function getClickData(options){
 
 function triggerSingle(e){
     const mapId = e.map.getTarget();
-
+    var eventColl = singleCollection[mapId];
     let allData = {};
     e.map.forEachFeatureAtPixel(e.pixel, function(fea,layer){
-        const dataId = fea.getId();
-        const layerId = layer.get('layerId');
-        let data = getClickData({
-            mapId: mapId,
-            layerId: layerId,
-            id: dataId
-        });
-        allData[layerId] = data;
+        if(layer && layer.get('layerId')){
+            const dataId = fea.getId();
+            const layerId = layer.get('layerId');
+            let data = getClickData({
+                mapId: mapId,
+                layerId: layerId,
+                id: dataId
+            });
+            allData[layerId] = data;
+        }
     });
 
-    /* if(singleCollection[mapId] && singleCollection[mapId][CONST.MAPEVENTLAYER]){
-        if(Object.keys(singleCollection[mapId]).length !== 1){
-            singleCollection[mapId][CONST.MAPEVENTLAYER].callback(allData);
-        }else if(){
-            let filterData = {};
-            for(var o in allData){
-                if(singleCollection[mapId][o] && singleCollection[mapId][o].openType === CONST.OPENTYPE.PUBLIC){
-                    filterData[o] = allData[o];
+    if(eventColl && eventColl[CONST.MAPEVENTLAYER]){
+        if(eventColl[CONST.MAPEVENTLAYER].getActive()){
+            eventColl[CONST.MAPEVENTLAYER].callback(filterData);
+        }
+    }else if(eventColl && eventColl[CONST.MAPEVENTLAYER] &&eventColl[CONST.MAPEVENTLAYER].length !== 0){
+        let showData = [], layerIns;
+        filterData.forEach(e => {
+            if(eventColl[e.layerId].getActive()){
+                layerIns = layerCtrl.getLayerIns({mapId: mapId, layerId: e.layerId});
+                let featureData = layerIns.getLayerData.filter(d => {
+                    return d.id = e.get('id')
+                })[0];
+                if(featureData){
+                    showData.push({
+                        labelName: layerIns.labelName,
+                        featureName: featureData.name || '未知',
+                        callback: eventColl[e.layerId].callback,
+                        data: featureData
+                    })
                 }
             }
-            singleCollection[mapId][CONST.MAPEVENTLAYER].callback(filterData);
-        }
-    }else{
-        
+        })
     }
 
-    if(singleCollection[mapId] && singleCollection[mapId][CONST.MAPEVENTLAYER]){
-        if(){
-            
+    for(var o in eventColl){
+        if(eventColl[o].openType === CONST.OPENTYPE.INTERNAL && eventColl[o].getActive()){
+            eventColl[o].callback(e);
         }
-    }else if(){
-
-    } */
+    }
 }
 
 function _dealLayerEvent(){
-    let popDom = document.createAttribute('div');   
+    let popDom = document.createAttribute('div');
 }
 
 function dealInnerEvent(){

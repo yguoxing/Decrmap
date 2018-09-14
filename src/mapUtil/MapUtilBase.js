@@ -7,7 +7,9 @@ import LayerBase from "./../layer/LayerBase";
 export default class MapUtilBase {
 
     constructor(options) {
+        this.mapId = options.mapId;
         this.utilId = options.utilId || dataHandler.getUUID('mapUtil');
+        this.callback = options.callback || null;
         this.style = {
             fill: {
                 color: 'rgba(255,0,0,0.2)'
@@ -26,5 +28,13 @@ export default class MapUtilBase {
             let layerObj = new LayerBase();
             layerObj.addLayer(layerOpt);
         }
+    }
+
+    getUtilSource(){
+        const options = {
+            mapId: this.mapId,
+            layerId: CONST.MAPUTILLAYER
+        };
+        return layerCtrl.getLayerIns(options).olLayer.getSource();
     }
 }

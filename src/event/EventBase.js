@@ -15,4 +15,7 @@ export default class EventBase {
     setActive(flag){
         this.active = flag;
     }
+    getActive(){
+        return this.active;
+    }
 }
