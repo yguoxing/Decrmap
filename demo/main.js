@@ -1,10 +1,10 @@
 var mapId = 'mapBox'
 
 window.onload = function(){
-    // initOSMMap();
+    initOSMMap();
     // initBaiduMap();
     // initGaodeMap();
-    initGoogleMap();
+    // initGoogleMap();
     addCirclePoint();
     addPolygon();
     addMarkerPoint();
@@ -15,7 +15,7 @@ window.onload = function(){
 function getCurrentPos(){
     if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
-            function (position) {  
+            function (position) {
                 console.log( position.coords.longitude );
                 console.log( position.coords.latitude );
             },
@@ -28,7 +28,7 @@ function getCurrentPos(){
 
 
 function initOSMMap(){
-    DMap.Map.addOsmMap(mapId, {defaultCenter: [116,40]});
+    DMap.Map.addOsmMap(mapId, {defaultCenter: [116,40], ctrls: ['ZOOM', 'SCALELINE', 'OVERVIEWMAP', 'MOUSEPOSITION']});
 }
 
 function initBaiduMap(){

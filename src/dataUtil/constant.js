@@ -22,6 +22,12 @@ const CONST = {
         PUBLIC: 'PUBLIC',
         INTERNAL: 'INTERNAL'
     },
+    CONTROL: {
+        ZOOM: 'ZOOM',
+        SCALELINE: 'SCALELINE',
+        OVERVIEWMAP: 'OVERVIEWMAP',
+        MOUSEPOSITION: 'MOUSEPOSITION'
+    },
     MAPEVENTLAYER: 'decrmap_allLayer',
     MAPUTILLAYER: 'decrmap_utilLayer',
     DEBUG: {

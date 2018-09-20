@@ -13,6 +13,7 @@ body{
 }
 
 #mapBox {
+    position: relative;
     width: 99%;
     height: 98%;
     border: 1px solid #ccc;
@@ -28,4 +29,107 @@ body{
     left: 100px;
     background-color: #ab9f676e;
     padding: 3px 7px;
+}
+
+.zoom-container{
+    position: absolute;
+    left: 35px;
+    top: 100px;
+}
+
+.ol-zoom .ol-zoom-in {
+    width: 30px;
+    height: 30px;
+    font-size: 28px;
+    background-color: white;
+    border: 1px solid #999;
+    cursor: pointer;
+    color: #666;
+}
+
+.ol-zoom .ol-zoom-out {
+    display: block;
+    overflow: hidden;
+    width: 30px;
+    height: 30px;
+    font-size: 28px;
+    background-color: white;
+    border: 1px solid #999;
+    cursor: pointer;
+    color: #666;
+}
+
+.zoom-container .decrmap-level {
+    width: 27px;
+    height: 27px;
+    font-size: 15px;
+    background-color: white;
+    border: 1px solid #999;
+    cursor: pointer;
+    border-radius: 32px;
+    margin-bottom: 5px;
+    text-align: center;
+    padding-top: 3px;
+    margin-left: 2px;
+    box-sizing: border-box;
+    color: #333;
+}
+
+.scaleLine-container {
+    position: absolute;
+    bottom: 20px;
+    border-bottom: 1px solid #999;
+    text-align: center;
+    left: 17px;
+    border-left: 1px solid #999;
+    height: 9px;
+    border-right: 1px solid #999;
+    font-size: 13px;
+    color: #333;
+}
+
+.scaleLine-container .ol-scale-line{
+    margin-top: -12px;
+}
+
+.mousePosition-container {
+    position: absolute;
+    bottom: 20px;
+    font-size: 13px;
+    color: #333;
+    right: 244px;
+}
+
+.mousePosition-container .ol-mouse-position{
+    background-color: rgba(255,255,255,0.7);
+    border-radius: 3px;
+    padding: 0px 5px;
+}
+
+.overviewmap-container{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    background-color: #f9f8f8;
+    border: 1px solid #999;
+    border-radius: 4px 0 0 4px;
+}
+.overviewmap-container button{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    width: 19px;
+    height: 18px;
+    border: 1px solid #ccc;
+    font-size: 12px;
+}
+
+.overviewmap-container .ol-overviewmap-map{
+    width: 220px;
+    height: 160px;
+}
+
+.overviewmap-container .ol-collapsed .ol-overviewmap-map {
+    display: none;
 }

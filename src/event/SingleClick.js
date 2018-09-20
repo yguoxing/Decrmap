@@ -1,4 +1,4 @@
-import EventBase from "./EventBase";
+import EventBase from './EventBase';
 import { CONST } from '../dataUtil/constant';
 import { mapCtrl } from '../map/mapCtrl';
 

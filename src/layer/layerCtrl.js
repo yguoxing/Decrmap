@@ -26,6 +26,30 @@ function removeAllLayer(mapId){
 
 }
 
+function removeLayer(){
+
+}
+
+function setLayerVisible(){
+
+}
+
+function setLayerOpacity(){
+
+}
+
+function getLayerData(){
+
+}
+
+function getLayerParam(){
+
+}
+
+function setLayerData(){
+
+}
+
 layerCtrl = {
     isLayerExist: isLayerExist,
     getLayerIns: getLayerIns

@@ -16,8 +16,8 @@ function setSingle(options){
 }
 
 function setMoveend(options){
-    moveendCollection[options.mapId] = moveendCollection[options.mapId] || {};
-    moveendCollection[options.mapId][options.layerId] = options.eventIns;
+    moveendCollection[options.mapId] = moveendCollection[options.mapId] || [];
+    moveendCollection[options.mapId].push(options.eventIns);
 }
 
 function setDouble(options){
@@ -26,8 +26,8 @@ function setDouble(options){
 }
 
 function getClickData(options){
-    let mapIns = mapCtrl.getMapObj(options.mapId);
-    let layerIns = mapIns.DLayer.filter(ele => {
+    let olMap = mapCtrl.getMapObj(options.mapId);
+    let layerIns = olMap.DLayer.filter(ele => {
         return ele.layerId === options.layerId
     })[0];
     return layerIns.data.filter(e => {
@@ -92,11 +92,15 @@ function dealInnerEvent(){
 }
 
 function triggerDouble(e){
-
+    const mapId = e.map.getTarget();
 }
 
 function triggerMoveend(e){
-
+    const mapId = e.map.getTarget();
+    const level = e.map.getView().getZoom();
+    moveendCollection[mapId].forEach(moveEvent => {
+        moveEvent.callback({mapId: mapId, level: level})
+    })
 }
 
 eventCtrl = {

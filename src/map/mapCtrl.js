@@ -15,7 +15,7 @@ function removeMap(mapId){
     delete mapCollection[mapId];
 }
 
-function getMapObj(mapId){
+function _getMapObj(mapId){
     return mapCollection[mapId]
 }
 
@@ -37,10 +37,46 @@ function _registerMoveend(mapId){
     })
 }
 
+function setMapCenter(){
+
+}
+
+function getMapCenter(){
+
+}
+
+function fitMapExtent(){
+
+}
+
+function getMapExtent(){
+
+}
+
+function updateBaselayer(){
+
+}
+
+function setBaselayerVisable(){
+
+}
+
+function setBaselayerOpacity(){
+
+}
+
+function updateControl(){
+
+}
+
+function updateSize(){
+
+}
+
 let mapCtrl = {
     setMap: setMap,
     removeMap: removeMap,
-    getMapObj: getMapObj
+    getMapObj: _getMapObj
 }
 
 export { mapCtrl }
