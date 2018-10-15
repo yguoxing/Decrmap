@@ -10,7 +10,7 @@ function setData(options){
     var layerIns = layerCtrl.getLayerIns(options);
     layerIns.setData(options);
 }
-
+/* 
 function removeLayer(options){
     var layerIns = layerCtrl.getLayerIns(options);
     if(layerIns){
@@ -31,15 +31,15 @@ function setLayerVisible(options){
 function getLayerData(options){
     var layerIns = layerCtrl.getLayerIns(options);
     layerIns.getLayerData(options);
-}
+} */
 
 const line = {
     addLayer: addLayer,
-    setData: setData,
+    setData: setData/* ,
     removeLayer: removeLayer,
     setLayerOpacity: setLayerOpacity,
     setLayerVisible: setLayerVisible,
-    getLayerData: getLayerData
+    getLayerData: getLayerData */
 }
 
 

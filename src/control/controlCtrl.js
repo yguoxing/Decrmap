@@ -18,7 +18,7 @@ function _setCtrl(mapId, type, zoomObj){
 function removeCtrls(mapId, ctrls){
     let olMap = mapCtrl.getMapObj(mapId).olMap;
     ctrls.forEach(c => {
-        let olCtrl = _getCtrl(mapId, c);
+        let olCtrl = _getCtrl(mapId, c.type);
         if(olCtrl){
             olMap.removeControl(olCtrl);
         }
@@ -26,6 +26,10 @@ function removeCtrls(mapId, ctrls){
             delete ctrlCollection[mapId][c];
         }
     })
+}
+
+function getAllCtrl(mapId){
+    return ctrlCollection[mapId];
 }
 
 function _getCtrl(mapId, type){
@@ -39,9 +43,9 @@ function _getCtrl(mapId, type){
 function addCtrl(mapId, ctrls){
     let olMap = mapCtrl.getMapObj(mapId).olMap;
     ctrls.forEach(c => {
-        if(!_getCtrl(mapId, c)){
+        if(!_getCtrl(mapId, c.type)){
             let ctrlObj = null;
-            switch (c){
+            switch (c.type){
                 case CONST.CONTROL.ZOOM:
                     ctrlObj = new Zoom({mapId: mapId});
                     _setCtrl(mapId, c, ctrlObj);
@@ -51,7 +55,7 @@ function addCtrl(mapId, ctrls){
                     _setCtrl(mapId, c, ctrlObj );
                     break;
                 case CONST.CONTROL.OVERVIEWMAP:
-                    ctrlObj = new OverviewMap({mapId: mapId});
+                    ctrlObj = new OverviewMap(Object.assign({mapId: mapId}, c));
                     _setCtrl(mapId, c, ctrlObj);
                     break;
                 case CONST.CONTROL.MOUSEPOSITION:
@@ -73,6 +77,7 @@ function updateCtrl(mapId, ctrls){
 let controlCtrl = {
     _setCtrl: _setCtrl,
     _getCtrl: _getCtrl,
+    getAllCtrl: getAllCtrl,
     removeCtrl: removeCtrls,
     addCtrl: addCtrl,
     updateCtrl: updateCtrl

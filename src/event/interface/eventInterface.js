@@ -1,13 +1,13 @@
-import { CirclePoint } from './re';
-import { MarkerPoint } from './markerPoint';
-import { Polygon } from './polygon';
-import { Line } from './line';
+import { registerLayerEvent } from './registerLayerEvent';
+import { registerMapEvent } from './registerMapEvent';
+import { registerMoveend } from './registerMoveend';
+import { eventCtrl } from '../eventCtrl';
 
-let Layer = {
-    CirclePoint: CirclePoint,
-    MarkerPoint: MarkerPoint,
-    Polygon: Polygon,
-    Line: Line
+let Event = {
+    removeEvent: eventCtrl.removeEvent,
+    registerLayerEvent: registerLayerEvent,
+    registerMapEvent: registerMapEvent,
+    registerMoveend: registerMoveend
 };
 
-export { Layer }
+export { Event }

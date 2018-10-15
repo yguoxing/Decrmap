@@ -3,9 +3,11 @@
  <head>
    <title>Decrypt Map</title>
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-   <link href="../demo/application.css" rel="stylesheet" type="text/css" />
+   <link href="../demo/libs/jquery-ui.css" rel="stylesheet" type="text/css" />
    <link href="../demo/decrmap.ico" rel="icon" type="image/x-icon"/>
    <link href="../demo/application.css" rel="stylesheet" type="text/css" />
+   <script type="text/javascript" src="../demo/libs/jquery-1.12.4.js"></script>
+   <script type="text/javascript" src="../demo/libs/jquery-ui.js"></script>
    <script type="text/javascript" src="../demo/main.js"></script>
  </head>
  <body>
@@ -18,7 +20,26 @@
       <button onclick="drawCircle()" >画圆</button>
       <button onclick="drawPolygon()" >画多边形</button>
       <button onclick="drawRectangle()" >画矩形</button>
+      <button onclick="changeMapColor()">地图颜色
+      </button>
     </div>
+    <div class="sliderContainer">
+        <div class="redContainer">
+            <div id="slider1"></div><input type="text" id="input1" value="0" onchange="changeColor()">
+            <div id="slider2"></div><input type="text" id="input2" value="0" onchange="changeColor()">
+            <div id="slider3"></div><input type="text" id="input3" value="0" onchange="changeColor()">
+        </div>
+        <div class="greenContainer">
+            <div id="slider4"></div><input type="text" id="input4" value="0" onchange="changeColor()">
+            <div id="slider5"></div><input type="text" id="input5" value="0" onchange="changeColor()">
+            <div id="slider6"></div><input type="text" id="input6" value="0" onchange="changeColor()">
+        </div>
+        <div class="blueContainer">
+            <div id="slider7"></div><input type="text" id="input7" value="0" onchange="changeColor()">
+            <div id="slider8"></div><input type="text" id="input8" value="0" onchange="changeColor()">
+            <div id="slider9"></div><input type="text" id="input9" value="0" onchange="changeColor()">
+        </div>
+      </div>
     <div id="mapBox"></div>
  </body>
 </html>

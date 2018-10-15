@@ -21,7 +21,7 @@ ol.source.AMap = function(options){
       }
 
     ol.source.XYZ.call(this, {
-          crossOrigin: 'anonymous',   //跨域
+        crossOrigin: 'anonymous',   //跨域
         cacheSize: options.cacheSize,
         projection: ol.proj.get('EPSG:3857'),
         // urls:urls,
@@ -32,7 +32,7 @@ ol.source.AMap = function(options){
 
 }
 
-ol.inherits(ol.source.AMap,ol.source.XYZ);
+ol.inherits(ol.source.AMap,ol.source.TileImage);
 
 export default class Gaode extends MapBase {
 
@@ -42,11 +42,18 @@ export default class Gaode extends MapBase {
 
     addMap(mapId, options){
         super.addMap(mapId, options);
-        this.olMap.addLayer(new ol.layer.Tile({
+        this.olMap.addLayer(this.createLayer());
+        this.createChange();
+    }
+    
+    createLayer(){
+        return new ol.layer.Tile({
             source: new ol.source.AMap({
                 mapType: "",
-                wrapX: false
-            })
-        }))
+                wrapX: false,
+                crossOrigin: 'anonymous'
+            }),
+            baselayer: true
+        })
     }
 }

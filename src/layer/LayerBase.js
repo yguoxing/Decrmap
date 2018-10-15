@@ -54,7 +54,7 @@ export default class LayerBase {
         this.olLayer.setVisible(options.visible);
     }
 
-    getLayerData(options){
+    getLayerData(){
         return this.data;
     }
 }

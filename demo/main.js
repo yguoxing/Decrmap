@@ -1,9 +1,9 @@
 var mapId = 'mapBox'
 
 window.onload = function(){
-    initOSMMap();
+    // initOSMMap();
     // initBaiduMap();
-    // initGaodeMap();
+    initGaodeMap();
     // initGoogleMap();
     addCirclePoint();
     addPolygon();
@@ -28,19 +28,34 @@ function getCurrentPos(){
 
 
 function initOSMMap(){
-    DMap.Map.addOsmMap(mapId, {defaultCenter: [116,40], ctrls: ['ZOOM', 'SCALELINE', 'OVERVIEWMAP', 'MOUSEPOSITION']});
+    DMap.Map.addOsmMap(mapId, {
+        defaultCenter: [116,40], 
+        ctrls:[{type: 'ZOOM'}, {type: 'SCALELINE'}, {type: 'OVERVIEWMAP', collapsed: false}, {type: 'MOUSEPOSITION'}]
+    });
 }
 
 function initBaiduMap(){
-    DMap.Map.addBaiduMap(mapId, {defaultCenter: [108.9290, 34.2583],zoom: 15});
+    DMap.Map.addBaiduMap(mapId, {
+        defaultCenter: [108.9290, 34.2583],
+        zoom: 15,
+        ctrls: [{type: 'ZOOM'}, {type: 'SCALELINE'}, {type: 'OVERVIEWMAP', collapsed: false}, {type: 'MOUSEPOSITION'}]
+    });
 }
 
 function initGaodeMap(){
-    DMap.Map.addGaodeMap(mapId, {defaultCenter: [116,40]});
+    DMap.Map.addGaodeMap(mapId, {
+        defaultCenter: [116,40],
+        zoom: 15,
+        ctrls: [{type: 'ZOOM'}, {type: 'SCALELINE'}, {type: 'OVERVIEWMAP', collapsed: false}, {type: 'MOUSEPOSITION'}]
+    });
 }
 
 function initGoogleMap(){
-    DMap.Map.addGoogleMap(mapId, {defaultCenter: [116,40]});
+    DMap.Map.addGoogleMap(mapId, {
+        defaultCenter: [116,40],
+        zoom: 15,
+        ctrls: [{type: 'ZOOM'}, {type: 'SCALELINE'}, {type: 'OVERVIEWMAP', collapsed: false}, {type: 'MOUSEPOSITION'}]
+    });
 }
 
 function addCirclePoint(){
@@ -212,4 +227,53 @@ function drawRectangle(){
             console.log('draw rectangle', param);
         }
     })
+}
+
+function changeMapColor(){
+    let isShow = ($('.sliderContainer')[0].style.display === 'none'  || $('.sliderContainer')[0].style.display === '') ?false:true;
+    if(isShow){
+        $('.sliderContainer').hide();
+        return;
+    }else{
+        $('.sliderContainer').show();
+    }
+    
+    for(var i=1;i<10;i++){
+        $("#slider"+i).slider({
+            max: 200,
+            min: 0,
+            value: 0,
+            change: function(event, ui){
+                var id = event.target.id.substr(event.target.id.length-1, 1);
+                $('#input' + id).val(Number(ui.value)/100);
+                let list = getParaList();
+                var options = {
+                    mapId: mapId,
+                    param: list
+                }
+                DMap.Map.disMapcolor(options);
+            }
+        });
+    }
+}
+
+function getParaList(){
+    let list = [[],[],[]];
+    for(var i=0;i<3;i++){
+        list[i].push(Number($('#input'+(i*3+1)).val()));
+        list[i].push(Number($('#input'+(i*3+2)).val()));
+        list[i].push(Number($('#input'+(i*3+3)).val()));
+    }
+    return list;
+}
+
+function changeColor(){
+    let list = getParaList();
+    var options = {
+        mapId: mapId,
+        param: list
+    }
+    DMap.Map.disMapcolor(options);
+
+    $( this.event.target.previousSibling ).slider( "option", "value", Number(this.event.target.value)*100 )
 }

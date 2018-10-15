@@ -49,12 +49,10 @@ ol.source.BaiduMap = function(options){
             '.map.bdimg.com/onlinelabel/qt=tile&x={x}&y={y}&z={z}&v=009&styles=pl&udt=20170301&scaler=1&p=1';
     });
     ol.source.TileImage.call(this, {
-          crossOrigin: 'anonymous',   //跨域
-        cacheSize: options.cacheSize,
-        // projection: ol.proj.get('EPSG:3857'),
-          projection:'baidu',
-          tileGrid: tilegrid,
-          tileUrlFunction: function(tileCoord, pixelRatio, proj){
+        crossOrigin: 'anonymous',   //跨域
+        projection:'baidu',
+        tileGrid: tilegrid,
+        tileUrlFunction: function(tileCoord, pixelRatio, proj){
             if(!tileCoord) return "";
 
             var z = tileCoord[0];
@@ -84,11 +82,18 @@ export default class Baidu extends MapBase {
 
     addMap(mapId, options){
         super.addMap(mapId, options);
-        this.olMap.addLayer(new ol.layer.Tile({
+        this.olMap.addLayer(this.createLayer());
+        this.createChange();
+    }
+
+    createLayer(){
+        return new ol.layer.Tile({
             source: new ol.source.BaiduMap({
                 mapType: "",
-                wrapX: false
-            })
-        }));
+                wrapX: false,
+                crossOrigin: 'anonymous'
+            }),
+            baselayer: true
+        });
     }
 }

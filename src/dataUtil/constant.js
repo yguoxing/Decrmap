@@ -28,6 +28,14 @@ const CONST = {
         OVERVIEWMAP: 'OVERVIEWMAP',
         MOUSEPOSITION: 'MOUSEPOSITION'
     },
+    ZINDEX: {
+        BASELAYER: [0, 10],
+        WMS: [11, 10],
+        POLYGON: [101, 200],
+        MARKERPOINT: [201, 300],
+        CIRCLEPOINT: [301, 400],
+        LINE: [401, 500]
+    },
     MAPEVENTLAYER: 'decrmap_allLayer',
     MAPUTILLAYER: 'decrmap_utilLayer',
     DEBUG: {

@@ -21,6 +21,26 @@ geoUtil.projTo3857 = function(coordnites){
 }
 
 /**
+ * 转换范围坐标成墨卡托坐标
+ * @param {Array} extent [minx, miny, maxx, maxy]
+ * @return {Array} [minx,miny,maxx,maxy]
+ */
+geoUtil.projExtentTo3857 = function(extent){
+
+    return ol.proj.transformExtent(extent, 'EPSG:4326', 'EPSG:3857')
+}
+
+/**
+ * 转换坐标
+ * @param {Array} extent [minx, miny, maxx, maxy]
+ * @return {Array} [minx,miny,maxx,maxy]
+ */
+geoUtil.projExtentTo4326 = function(extent){
+    
+    return ol.proj.transformExtent(extent, 'EPSG:3857', 'EPSG:4326')
+}
+
+/**
  * 获取多个点之间的距离，实际地理长度
  * @param {Array} points 
  */
