@@ -8,13 +8,18 @@ function setUtil(options){
 }
 
 function removeUtil(options){
-    if(utilCollection[options.mapId]){
+    if(utilCollection[options.mapId] && utilCollection[options.mapId][options.utilId]){
+        utilCollection[options.mapId][options.utilId].closeUtil();
         delete utilCollection[options.mapId][options.utilId];
     }
 }
 
 function removeAllUtil(mapId){
     delete utilCollection[mapId];
+}
+
+function deActive(options){
+
 }
 
 function getUtilIns(options){
@@ -34,6 +39,11 @@ function setActive(options, flag){
     drawIns.setActive(flag);
 }
 
+function isActive(options){
+    let drawIns = getUtilIns(options);
+    return drawIns.isActive();
+}
+
 function closeAllUtil(mapId){
     
 }
@@ -44,7 +54,8 @@ let utilCtrl = {
     removeAllUtil: removeAllUtil,
     getUtilIns: getUtilIns,
     isUtilExist: isUtilExist,
-    setActive: setActive
+    setActive: setActive,
+    isActive: isActive
 }
 
 export { utilCtrl }

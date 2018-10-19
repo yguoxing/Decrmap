@@ -90,6 +90,7 @@ export default class MeasureDistance extends MapUtilBase {
             self.closeUtil();
         });
         if(this.callback){
+            this.points = [];
             this.callback({
                 mapId: this.mapId,
                 distance: this.oldDistance,
@@ -97,7 +98,7 @@ export default class MeasureDistance extends MapUtilBase {
             })
         }
         setTimeout(() => {
-            this.setActive(false);    
+            this.setActive(false);
         }, 200);
     }
 
@@ -107,7 +108,7 @@ export default class MeasureDistance extends MapUtilBase {
      */
     _drawing(e){
         if(this.points.length - e.length === 0){
-            return 
+            return
         }
         let position = [0, 0], flag, overlayerId = this.popId;
         // 鼠标点击地图模式
@@ -236,11 +237,16 @@ export default class MeasureDistance extends MapUtilBase {
         this.removeOverlay([this.movePopId, this.popId]);
 
         let utilSource = this.getUtilSource();
+
         let circleFea = utilSource.getFeatureById(this.circleFeaId);
+        if(circleFea){
+            utilSource.removeFeature(circleFea);
+        }
 
         let lineFea = utilSource.getFeatureById(this.utilId);
-        utilSource.removeFeature(circleFea);
-        utilSource.removeFeature(lineFea);
+        if(lineFea){
+            utilSource.removeFeature(lineFea);
+        }
 
         let olMap = mapCtrl.getMapObj(this.mapId).olMap;
         olMap.removeInteraction(this.drawInter);

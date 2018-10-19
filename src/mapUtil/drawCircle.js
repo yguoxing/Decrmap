@@ -173,10 +173,14 @@ export default class DrawCircle extends MapUtilBase {
         
         let utilSource = this.getUtilSource();
         let centerFea = utilSource.getFeatureById(this.centerId);
-        utilSource.removeFeature(centerFea);
+        if(centerFea){
+            utilSource.removeFeature(centerFea);
+        }
 
         let outerFea = utilSource.getFeatureById(this.outerId);
-        utilSource.removeFeature(outerFea);
+        if(outerFea){
+            utilSource.removeFeature(outerFea);
+        }
 
         let olMap = mapCtrl.getMapObj(this.mapId).olMap;
         olMap.removeInteraction(this.drawInter);

@@ -8,10 +8,10 @@ function drawPoint(options) {
         utilId: options.utilId,
         callback: options.callback
     }
-    if(!param.active && utilCtrl.isUtilExist(param)){
-        utilCtrl.setActive(false);
-    }else if(param.active && !utilCtrl.isUtilExist(param)){
-        utilCtrl.removeUtil(param);
+    
+    if(utilCtrl.isUtilExist(param)){
+        utilCtrl.setActive(param, param.active);
+    }else{
         let utilIns = new DrawPoint(param);
         param.utilId = utilIns.utilId;
         utilCtrl.setUtil({

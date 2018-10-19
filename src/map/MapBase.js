@@ -5,9 +5,10 @@ import ol from 'openlayers';
 export default class MapBase {
 
     constructor(options) {
-        this.DLayer = [];
-        this.mapId = null;
-        this.olMap = null;
+        options = options || {};
+        this.DLayer = options.DLayer || [];
+        this.mapId = options.mapId || null;
+        this.olMap = options.olMap || null;
     }
 
     addMap(mapId, options){
@@ -27,22 +28,27 @@ export default class MapBase {
 
     createChange(){
         let layers = this.olMap.getLayers().getArray();
-        let baselayer = layers.filter(l => {
-            return l.get('baselayer')
-        })[0];
+        let baselayer = this.getBaselayer();
         baselayer.getSource().on('tileloadend', Function.prototype.bind.apply(this.changeColor, [null].concat(this)));
-        
     }
     
     /**
      * 地图颜色变化
      */
-    disColor(color){
-        this.colorParam = color;
+    colorMap(color){
         const common = {
-            gray: [[]]
+            gray: [[0.1, 0.2, 0.1], [0.1, 0.2, 0.1], [0.1, 0.2, 0.1]],
+            drakBlue: [[0.3, 0.3, 0.3], [0.3, 0.3, 0.3], [0.07,0.07,0.07]],
+            brightBlack: [[0.35, 0.35, 0.35], [0.35, 0.35, 0.35], [0.35, 0.35, 0.35]],
+            red: [[0.07, 0.07, 0.07], [0.3, 0.3, 0.3], [0.3, 0.3, 0.3]],
+            green: [[0.2, 0.2, 0.2], [0.1, 0.1, 0.1], [0.2, 0.2, 0.2]]
         }
-        this.olMap.render();
+        if(Array.isArray(color)){
+            this.colorParam = color;    
+        }else{
+            this.colorParam = common[color];
+        }
+        
         let layers = this.olMap.getLayers().getArray();
         let baselayer = layers.filter(l => {
             return l.get('baselayer')
@@ -50,6 +56,9 @@ export default class MapBase {
         baselayer.getSource().refresh();
     }
 
+    /**
+     * 修改底图的颜色
+     */
     changeColor(self, e){
         if(!self.colorParam){
             return;
@@ -59,9 +68,9 @@ export default class MapBase {
         var tempC = document.createElement("canvas");
         tempC.width = image.width;
         tempC.height = image.height;
-        var ctx=tempC.getContext("2d");
+        var ctx = tempC.getContext("2d");
         ctx.drawImage(image, 0, 0, image.width, image.height);
-        let imgData=ctx.getImageData(0,0,tempC.width,tempC.height);
+        let imgData = ctx.getImageData(0,0,tempC.width,tempC.height);
         let oldR, oldG, oldB;
         for(var i=0; i<imgData.data.length-1;i = i+4){
             oldR = imgData.data[i], oldG = imgData.data[i+1]; oldB = imgData.data[i+2];
@@ -74,5 +83,28 @@ export default class MapBase {
         }
         ctx.putImageData(imgData, 0, 0);
         e.tile.g.src = ctx.canvas.toDataURL();
+    }
+
+    /**
+     * 获取底图图层
+     */
+    getBaselayer(){
+        return this.olMap.getLayers().getArray().filter(l => {
+            return l.get('baselayer')
+        })[0];
+    }
+
+    /**
+     * 切换卫星地图
+     */
+    switchSatellite(){}
+
+    /**
+     * 切换道路地图
+     */
+    switchRoad(){
+        let mapSource = this.createRoadSource();
+        this.getBaselayer().setSource(mapSource);
+        this.createChange();
     }
 }

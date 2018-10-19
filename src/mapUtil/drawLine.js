@@ -102,7 +102,9 @@ export default class DrawLine extends MapUtilBase {
         
         let utilSource = this.getUtilSource();
         let lineFea = utilSource.getFeatureById(this.utilId);
-        utilSource.removeFeature(lineFea);
+        if(lineFea){
+            utilSource.removeFeature(lineFea);
+        }
 
         let olMap = mapCtrl.getMapObj(this.mapId).olMap;
         olMap.removeInteraction(this.drawInter);

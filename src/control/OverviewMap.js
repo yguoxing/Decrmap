@@ -9,6 +9,7 @@ export default class Zoom extends ControlBase {
         super(options);
         this.type = CONST.CONTROL.OVERVIEWMAP;
         this.olCtrl = new ol.control.OverviewMap({
+            layers: [],
             target: this._createTarget(),
             collapsed: options.collapsed === false ? false : true
         });

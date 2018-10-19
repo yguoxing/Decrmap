@@ -13,7 +13,9 @@ let openInterface = {
     addPopup: mapCtrl.addPopup,
     removePopup: mapCtrl.removePopup,
     removeAllPopup: mapCtrl.removeAllPopup,
-    disMapcolor: mapCtrl.disMapcolor
+    colorMap: mapCtrl.colorMap,
+    switchSatellite: mapCtrl.switchSatellite,
+    switchRoad: mapCtrl.switchRoad
 }
 
 export { openInterface }

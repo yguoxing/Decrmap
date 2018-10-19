@@ -5,9 +5,11 @@ import { drawPoint } from './drawPoint';
 import { drawLine } from './drawLine';
 import { drawCircle } from './drawCircle';
 import { drawPolygon } from './drawPolygon';
-import { drawRectangle } from './drawRectangle'
+import { drawRectangle } from './drawRectangle';
+import { openInterface } from '../openInterface'; 
 
 const MapUtil = {
+    ...openInterface,
     openMeasureDistance: openMeasureDistance,
     openMeasureAngle: openMeasureAngle,
     openMeasureArea: openMeasureArea,

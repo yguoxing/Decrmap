@@ -10,6 +10,7 @@ export default class MapUtilBase {
     constructor(options) {
         this.mapId = options.mapId;
 
+        this.drawInter = null;
         // 工具Id
         this.utilId = options.utilId || dataHandler.getUUID('mapUtil');
         
@@ -65,4 +66,16 @@ export default class MapUtilBase {
             }
         }
     }
+
+    /**
+     * 获取工具的状态，打开或者关闭
+     */
+    isActive(){
+        return this.drawInter.getActive();
+    }
+
+    /**
+     * 从Ol中删除工具对象
+     */
+    closeUtil(){}
 }

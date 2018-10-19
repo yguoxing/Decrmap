@@ -180,10 +180,14 @@ export default class MeasureAngle extends MapUtilBase {
 
         let utilSource = this.getUtilSource();
         let angleFea = utilSource.getFeatureById(this.angleId);
+        if(angleFea){
+            utilSource.removeFeature(angleFea);
+        }
 
         let lineFea = utilSource.getFeatureById(this.utilId);
-        utilSource.removeFeature(angleFea);
-        utilSource.removeFeature(lineFea);
+        if(lineFea){
+            utilSource.removeFeature(lineFea);
+        }
 
         let olMap = mapCtrl.getMapObj(this.mapId).olMap;
         olMap.removeInteraction(this.drawInter);

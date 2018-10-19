@@ -144,7 +144,9 @@ export default class DrawRectangle extends MapUtilBase {
         
         let utilSource = this.getUtilSource();
         let outerFea = utilSource.getFeatureById(this.rectangleId);
-        utilSource.removeFeature(outerFea);
+        if(outerFea){
+            utilSource.removeFeature(outerFea);
+        }
 
         let olMap = mapCtrl.getMapObj(this.mapId).olMap;
         olMap.removeInteraction(this.drawInter);

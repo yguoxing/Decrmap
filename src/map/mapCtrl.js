@@ -1,3 +1,8 @@
+import Baidu from "./Baidu";
+import Gaode from "./Gaode";
+import Google from "./Google";
+import Osm from "./Osm";
+import Wms from "./Wms";
 import { CONST } from '../dataUtil/constant';
 import { geoUtil } from '../dataUtil/geoUtil';
 import { eventCtrl } from '../event/eventCtrl';
@@ -103,22 +108,40 @@ function getMapExtent(opition){
  * @param {Object} opition 
  */
 function updateBaselayer(opition){
-    const olMap = _getMapObj(opition.mapId).olMap;
-    
-    let layers = olMap.getLayers().getArray();
-
-    let index;
-    layers.forEach((l,i) => {
-        if(l.get('baselayer')){
-            index - i;
-        }
-    });
-    switch (opition.layer){
-        case CONST.MAPTYPE.OSM :
-            
+    const mapIns = _getMapObj(opition.mapId);
+    let newMapIns;
+    switch (opition.type){
+        case CONST.MAPTYPE.WMS :
+            newMapIns = new wms(mapIns);
+            break;
+        case CONST.MAPTYPE.BAIDU :
+            newMapIns = new Baidu(mapIns);
+            break;
+        case CONST.MAPTYPE.GAODE :
+            newMapIns = new Gaode(mapIns);
+            break;
+        case CONST.MAPTYPE.GOOGLE :
+            newMapIns = new Google(mapIns);
+            break;
+        default :
+            newMapIns = new Osm(mapIns);
     }
-    let newLayer = _getMapObj(opition.mapId).createLayer();
-    layers.splice(index, 1, newLayer);
+    let newBaselayer = newMapIns.createLayer();
+    let layers = newMapIns.olMap.getLayers();
+    /* for(let i=0;i<layers.length;i++){
+        if(layers[i].get('baselayer')){
+            layers.splice(i, 1, newBaselayer);
+            break;
+        }
+    } */
+    layers.getArray().forEach((e, i) =>{
+        if(e.get('baselayer')){
+            layers.setAt(i, newBaselayer);
+        }
+    })
+    newMapIns.createChange();
+    mapCollection[opition.mapId] = newMapIns;
+    newMapIns.olMap.updateSize();
 }
 
 /**
@@ -184,9 +207,19 @@ function updateSize(opition){
     olMap.updateSize();
 }
 
-function disMapcolor(opition){
+function colorMap(opition){
     let mapIns = _getMapObj(opition.mapId);
-    mapIns.disColor(opition.param);
+    mapIns.colorMap(opition.param);
+}
+
+function switchSatellite(opition){
+    let mapIns = _getMapObj(opition.mapId);
+    mapIns.switchSatellite();
+}
+
+function switchRoad(opition){
+    let mapIns = _getMapObj(opition.mapId);
+    mapIns.switchRoad();
 }
 
 let mapCtrl = {
@@ -204,7 +237,9 @@ let mapCtrl = {
     addPopup: overlay.addPopup,
     removePopup :overlay.removePopup,
     removeAllPopup: overlay.removeAllPopup,
-    disMapcolor: disMapcolor
+    colorMap: colorMap,
+    switchSatellite: switchSatellite,
+    switchRoad: switchRoad
 }
 
 export { mapCtrl }

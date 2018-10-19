@@ -8,10 +8,10 @@ function openMeasureArea(options) {
         utilId: options.utilId,
         callback: options.callback || null
     }
-    if(!param.active && utilCtrl.isUtilExist(param)){
-        utilCtrl.setActive(false);
-    }else if(param.active && !utilCtrl.isUtilExist(param)){
-        utilCtrl.removeUtil(param);
+    
+    if(utilCtrl.isUtilExist(param)){
+        utilCtrl.setActive(param, param.active);
+    }else if(param.active){
         let utilIns = new MeasureArea(param);
         param.utilId = utilIns.utilId;
         utilCtrl.setUtil({

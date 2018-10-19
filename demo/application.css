@@ -141,18 +141,13 @@ body{
 
 .sliderContainer {
     width: 190px;
-    float: right;
-    margin-top: 18px;
-    background-color: #4a6043;
     z-index: 1000;
-    position: absolute;
-    left: 24%;
-    top: 39px;
+    margin-left: 142px;
     display: none;
 }
 
 .sliderContainer .ui-slider-horizontal {
-    height: 8px;
+    height: 1px;
     margin: 7px;
     width: 70%;
     display: inline-block;
@@ -168,17 +163,164 @@ body{
     height: 13px;
 }
 
-.redContainer {
+.redContainer .ui-slider-horizontal{
+    padding: 2px 4px;
     background-color: red;
-    padding: 2px 4px;
 }
 
-.greenContainer {
+.greenContainer .ui-slider-horizontal{
+    padding: 2px 4px;
     background-color: green;
-    padding: 2px 4px;
 }
 
-.blueContainer {
-    background-color: blue;
+.blueContainer .ui-slider-horizontal{
     padding: 2px 4px;
+    background-color: blue;
+}
+
+.commonColor {
+    padding: 4px;
+    background-color: #e1dcc5;
+}
+
+.commonColor span{
+    margin: 3px 4px;
+    background-color: white;
+    opacity: 0.8;
+    font-size: 14px;
+    padding: 1px 4px;
+    cursor: pointer;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+
+/* new */
+
+.menuOuter{
+    width: 400;
+    overflow: hidden;
+    position: absolute;
+    z-index: 10;
+    height: 90%;
+    background-color: rgba(53, 144, 156, 0.94);
+    top: 5%;
+    left: 12px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 14px #1F6B75;
+    font-size: 14px;
+}
+
+.staticDiv{
+    height: 100%;
+}
+
+.menu{
+    overflow-x: hidden;
+    width: 395px;
+    margin: auto;
+}
+
+.menu li{
+    margin: 10px 0;
+}
+
+.rightButton{
+    width: 0;
+    height: 0;
+    border-width: 13px 0 16px 11px;
+    border-style: solid;
+    border-color: transparent transparent transparent #90e2c8;
+    
+}
+
+.trapezoid {
+    width: 0px;
+    height: 59px;
+    box-sizing: border-box;
+    border: 12px solid transparent;
+    border-right: 15px solid transparent;
+    border-left: 11px solid #4a7a7d;
+    position: absolute;
+    z-index: 10;
+    top: 42%;
+    left: 12px;
+}
+
+.ui-accordion-header{
+    border: 1px solid #1F6B75;
+    background: #1F6B75;
+    color: white;
+}
+
+.ui-accordion-header, .ui-state-hover{
+    background: #1F6B75;
+}
+
+.typeName{
+    display: inline-block;
+    width: 20%;
+    vertical-align: top;
+    text-align: right;
+    margin-top: 4px;
+}
+
+.typeOption{
+    display: inline-block;
+    width: 78%;
+}
+
+.ui-accordion .ui-accordion-content{ 
+    background: none;
+    border: 0 solid #10adc1;
+    font-size: 14px;
+    padding: 8px;
+    color: #eee;
+    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Noto Sans CJK SC,WenQuanYi Micro Hei,Arial,sans-serif;
+}
+
+.button{
+    padding: 4px 6px;
+    border: 1px solid #a2e2ea;
+    border-radius: 3px;
+    background-color: #2d97a5;
+    margin: 2px 5px;
+    display: inline-block;
+    text-align: center;
+    width: 56px;
+    cursor: pointer;
+}
+
+.button:hover{
+    background-color: #1F6B75;
+}
+
+.menu > div{
+    overflow-y: auto;
+    height: 0;
+    padding-left: 12px;
+}
+.menu>div::-webkit-scrollbar {
+    width: 10px;
+    height: 1px;
+}
+
+.menu>div::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #1f6b75;
+}
+
+.menu>div::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background: #4197a1;
+}
+
+.menu h3{
+    line-height: 35px;
+    background: #1F6B75;
+    color: white;
+    border: 1px solid #72a6ad;
+    border-radius: 4px;
+    padding-left: 13px;
+    cursor: pointer;
 }

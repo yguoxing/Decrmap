@@ -3,14 +3,14 @@ import MapBase from './MapBase';
 import { CONST } from '../dataUtil/constant';
 import { Log } from '../dataUtil/consoleLog';
 
-ol.source.AMap = function(options){
+ol.source.gaodeSource = function(options){
     var options = options ? options : {};
 
       var attributions;
       if(options.attributions !== undefined){
           attributions = option.attributions;
       }else{
-          attributions = [ol.source.AMap.ATTRIBUTION];
+          attributions = [ol.source.gaodeSource.ATTRIBUTION];
       }
 
       var url;
@@ -22,17 +22,13 @@ ol.source.AMap = function(options){
 
     ol.source.XYZ.call(this, {
         crossOrigin: 'anonymous',   //跨域
-        cacheSize: options.cacheSize,
         projection: ol.proj.get('EPSG:3857'),
-        // urls:urls,
         url:url,
         wrapX: options.wrapX !== undefined ? options.wrapX : true
-
       });
-
 }
 
-ol.inherits(ol.source.AMap,ol.source.TileImage);
+ol.inherits(ol.source.gaodeSource,ol.source.TileImage);
 
 export default class Gaode extends MapBase {
 
@@ -48,12 +44,24 @@ export default class Gaode extends MapBase {
     
     createLayer(){
         return new ol.layer.Tile({
-            source: new ol.source.AMap({
-                mapType: "",
-                wrapX: false,
-                crossOrigin: 'anonymous'
-            }),
+            source: this.createRoadSource(),
             baselayer: true
         })
+    }
+
+    createRoadSource(){
+        return new ol.source.gaodeSource({
+            mapType: "",
+            wrapX: false,
+            crossOrigin: 'anonymous'
+        })
+    }
+
+    switchSatellite(){
+        this.getBaselayer().setSource(new ol.source.gaodeSource({
+            mapType: "sat",
+            wrapX: false,
+            crossOrigin: 'anonymous'
+        }))
     }
 }

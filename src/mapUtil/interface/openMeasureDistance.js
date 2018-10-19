@@ -9,10 +9,9 @@ function openMeasureDistance(options) {
         callback: options.callback || null
     }
 
-    if(!param.active && utilCtrl.isUtilExist(param)){
-        utilCtrl.setActive(false);
-    }else if(param.active && !utilCtrl.isUtilExist(param)){
-        utilCtrl.removeUtil(param);
+    if(utilCtrl.isUtilExist(param)){
+        utilCtrl.setActive(param, param.active);
+    }else if(param.active){
         let utilIns = new MeasureDistance(param);
         param.utilId = utilIns.utilId;
         utilCtrl.setUtil({

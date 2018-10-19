@@ -172,9 +172,12 @@ export default class MeasureAngle extends MapUtilBase {
         this.removeOverlay([this.popId]);
 
         let utilSource = this.getUtilSource();
-        let lineFea = utilSource.getFeatureById(this.utilId);
-        utilSource.removeFeature(lineFea);
 
+        let lineFea = utilSource.getFeatureById(this.utilId);
+        if(lineFea){
+            utilSource.removeFeature(lineFea);
+        }
+        
         let olMap = mapCtrl.getMapObj(this.mapId).olMap;
         olMap.removeInteraction(this.drawInter);
         this.setActive(false);
