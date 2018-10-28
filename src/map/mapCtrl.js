@@ -1,8 +1,9 @@
-import Baidu from "./Baidu";
-import Gaode from "./Gaode";
-import Google from "./Google";
-import Osm from "./Osm";
-import Wms from "./Wms";
+import Baidu from './Baidu';
+import Gaode from './Gaode';
+import Google from './Google';
+import Osm from './Osm';
+import Wms from './Wms';
+import Blank from './Blank';
 import { CONST } from '../dataUtil/constant';
 import { geoUtil } from '../dataUtil/geoUtil';
 import { eventCtrl } from '../event/eventCtrl';
@@ -123,6 +124,9 @@ function updateBaselayer(opition){
         case CONST.MAPTYPE.GOOGLE :
             newMapIns = new Google(mapIns);
             break;
+        case CONST.MAPTYPE.BLANK :
+            newMapIns = new Blank(mapIns);
+            break;
         default :
             newMapIns = new Osm(mapIns);
     }
@@ -222,6 +226,22 @@ function switchRoad(opition){
     mapIns.switchRoad();
 }
 
+function transform(coordinate, sourceoProj){
+    if(sourceoProj === 'EPSG:3857'){
+        return geoUtil.projTo4326(coordinate);
+    }else{
+        return geoUtil.projTo3857(coordinate);
+    }
+}
+
+function transExtent(extent, sourceoProj){
+    if(sourceoProj === 'EPSG:3857'){
+        return geoUtil.projExtentTo4326(coordinate);
+    }else{
+        return geoUtil.projExtentTo3857(coordinate);
+    }
+}
+
 let mapCtrl = {
     setMap: setMap,
     setMapCenter: setMapCenter,
@@ -239,7 +259,9 @@ let mapCtrl = {
     removeAllPopup: overlay.removeAllPopup,
     colorMap: colorMap,
     switchSatellite: switchSatellite,
-    switchRoad: switchRoad
+    switchRoad: switchRoad,
+    transform: transform,
+    transExtent: transExtent
 }
 
 export { mapCtrl }

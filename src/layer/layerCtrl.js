@@ -45,10 +45,10 @@ function getAllLayerList(mapId){
  * @param {String} mapId 地图ID
  */
 function removeAllLayer(mapId){
-    let olMap = mapCtrl.getMapObj(mapId);
-    let layers = olMap.DLayer;
+    let mapIns = mapCtrl.getMapObj(mapId);
+    let layers = mapIns.DLayer;
     for(var i = layers.length - 1;i > 0; i--){
-        olMap.removeLayer(layers[i]);
+        mapIns.olMap.removeLayer(layers[i]);
         layers.splice(i,1);
     }
 }
@@ -58,11 +58,11 @@ function removeAllLayer(mapId){
  * @param {Object} options 
  */
 function removeLayer(options){
-    let olMap = mapCtrl.getMapObj(options.mapId);
-    let layers = olMap.DLayer;
+    let mapIns = mapCtrl.getMapObj(options.mapId);
+    let layers = mapIns.DLayer;
     layers.forEach((l, i) => {
         if(l.layerId === options.layerId){
-            olMap.removeLayer(e.olLayer);
+            mapIns.olMap.removeLayer(l.olLayer);
             layers.splice(i, 1);
         }
     })

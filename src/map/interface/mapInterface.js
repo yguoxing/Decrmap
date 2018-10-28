@@ -4,6 +4,7 @@ import { addGaodeMap } from './addGaode';
 import { addGoogleMap } from './addGoogle';
 import { addOsmMap } from './addOsm';
 import { addWmsMap } from './addWms';
+import { addBlankMap } from './addBlank';
 import { openInterface } from '../openInterface'; 
 
 const Map = {

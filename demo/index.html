@@ -11,45 +11,6 @@
    <script type="text/javascript" src="../demo/main.js"></script>
  </head>
  <body>
-     <!-- old start -->
-    <!-- <div class="buttonCOntent">
-      <button onclick="measureDistance()" >测距</button>
-      <button onclick="measureAngle()" >测夹角</button>
-      <button onclick="measureArea()" >测面积</button>
-      <button onclick="drawPoint()" >画点</button>
-      <button onclick="drawLine()" >画线</button>
-      <button onclick="drawCircle()" >画圆</button>
-      <button onclick="drawPolygon()" >画多边形</button>
-      <button onclick="drawRectangle()" >画矩形</button>
-      <button onclick="changeMapColor()">地图颜色</button>
-      <button onclick="switchSat()">卫星地图</button>
-    </div>
-    <div class="sliderContainer">
-        <div class="redContainer">
-            <div id="slider1"></div><input type="text" id="input1" value="0" onchange="changeColor()">
-            <div id="slider2"></div><input type="text" id="input2" value="0" onchange="changeColor()">
-            <div id="slider3"></div><input type="text" id="input3" value="0" onchange="changeColor()">
-        </div>
-        <div class="greenContainer">
-            <div id="slider4"></div><input type="text" id="input4" value="0" onchange="changeColor()">
-            <div id="slider5"></div><input type="text" id="input5" value="0" onchange="changeColor()">
-            <div id="slider6"></div><input type="text" id="input6" value="0" onchange="changeColor()">
-        </div>
-        <div class="blueContainer">
-            <div id="slider7"></div><input type="text" id="input7" value="0" onchange="changeColor()">
-            <div id="slider8"></div><input type="text" id="input8" value="0" onchange="changeColor()">
-            <div id="slider9"></div><input type="text" id="input9" value="0" onchange="changeColor()">
-        </div>
-        <div class="commonColor">
-            <span onclick="changeColor('gray')">灰色</span><span onclick="changeColor('drakBlue')">深蓝</span>
-            <span onclick="changeColor('brightBlack')">亮黑</span><span onclick="changeColor('red')">红色</span>
-            <span onclick="changeColor('green')">绿色</span><span onclick="changeColor('default')">默认</span>
-        </div>
-    </div>
-    <div id="mapBox"></div> -->
-      <!-- old end -->
-
-    <!-- new satrt -->
     <div class="menuOuter">
         <div class="staticDiv">
             <div class="menu" id="menu">
@@ -64,6 +25,7 @@
                                     <span class="button" onclick="updateBaselayer('BAIDU')">百度</span>
                                     <span class="button" onclick="updateBaselayer('GAODE')">高德</span>
                                     <span class="button" onclick="updateBaselayer('GOOGLE')">谷歌</span>
+                                    <span class="button" onclick="updateBaselayer('BLANK')">空白</span>
                                     <span class="button" onclick="updateBaselayer('Wms')">离线</span>
                                 </div>
                             </div>
@@ -115,65 +77,68 @@
                 <div>
                     <ul>
                         <li>
-                            <label class="typeName">圆形点(个)</label>
+                            <label class="typeName">圆形点(个)：</label>
                             <div class="typeOption">
-                                <span class="button" onclick="changeColor('default')">1000</span>
-                                <span class="button" onclick="changeColor('default')">5000</span>
-                                <span class="button" onclick="changeColor('default')">2W</span>
-                                <span class="button" onclick="changeColor('default')">5W</span>
+                                <span class="button" onclick="addCirclePoint(1000)">1000</span>
+                                <span class="button" onclick="addCirclePoint(5000)">5000</span>
+                                <span class="button" onclick="addCirclePoint(10000)">2W</span>
+                                <span class="button" onclick="addCirclePoint(50000)">5W</span>
+                                <span class="button" onclick="clearData('circlePoint')">清除数据</span>
                             </div>
                         </li>
                         <li>
-                            <label class="typeName">线(条)</label>
+                            <label class="typeName">线(条)：</label>
                             <div class="typeOption">
-                                <span class="button" onclick="changeColor('default')">100</span>
-                                <span class="button" onclick="changeColor('default')">360</span>
-                                <span class="button" onclick="changeColor('default')">720</span>
-                                <span class="button" onclick="changeColor('default')">1080</span>
+                                <span class="button" onclick="addLine(100)">100</span>
+                                <span class="button" onclick="addLine(360)">360</span>
+                                <span class="button" onclick="addLine(720)">720</span>
+                                <span class="button" onclick="addLine(1080)">1080</span>
+                                <span class="button" onclick="clearData('lineArrow')">清除数据</span>
                             </div>
                         </li>
                         <li>
-                            <label class="typeName">图标点(个)</label>
+                            <label class="typeName">图标点(个)：</label>
                             <div class="typeOption">
-                                <span class="button" onclick="changeColor('default')">1000</span>
-                                <span class="button" onclick="changeColor('default')">5000</span>
-                                <span class="button" onclick="changeColor('default')">2W</span>
-                                <span class="button" onclick="changeColor('default')">5W</span>
+                                <span class="button" onclick="addMarkerPoint(100)">100</span>
+                                <span class="button" onclick="addMarkerPoint(1000)">1000</span>
+                                <span class="button" onclick="addMarkerPoint(5000)">3000</span>
+                                <span class="button" onclick="addMarkerPoint(20000)">2W</span>
+                                <span class="button" onclick="addMarkerPoint('markerPoint')">清除数据</span>
                             </div>
                         </li>
                         <li>
-                            <label class="typeName">多边形(个)</label>
+                            <label class="typeName">多边形(个)：</label>
                             <div class="typeOption">
-                                <span class="button" onclick="changeColor('default')">100</span>
-                                <span class="button" onclick="changeColor('default')">50</span>
-                                <span class="button" onclick="changeColor('default')">100</span>
-                                <span class="button" onclick="changeColor('default')">300</span>
+                                <span class="button" onclick="addPolygon(10)">10</span>
+                                <span class="button" onclick="addPolygon(50)">50</span>
+                                <span class="button" onclick="addPolygon(100)">100</span>
+                                <span class="button" onclick="addPolygon(300)">300</span>
+                                <span class="button" onclick="clearData('polygon')">清除数据</span>
                             </div>
                         </li>
                         <li>
-                            <label class="typeName">轨迹图(条)</label>
+                            <label class="typeName">轨迹图(条)：</label>
                             <div class="typeOption">
-                                <span class="button" onclick="changeColor('default')">1</span>
-                                <span class="button" onclick="changeColor('default')">5</span>
-                                <span class="button" onclick="changeColor('default')">20</span>
-                                <span class="button" onclick="changeColor('default')">30</span>
+                                <span class="button" onclick="addTrack(1)">1</span>
+                                <span class="button" onclick="addTrack(5)">5</span>
+                                <span class="button" onclick="addTrack(20)">20</span>
+                                <span class="button" onclick="addTrack(30)">30</span>
+                                <span class="button" onclick="clearData('trackLine')">清除数据</span>
+                                <span class="button" onclick="startTrack()">启动</span>
+                                <span class="button" onclick="stopTrack()">停止</span>
                             </div>
                         </li>
                         <li>
-                            <label class="typeName">热点图(个)</label>
+                            <label class="typeName">热点图(个)：</label>
                             <div class="typeOption">
-                                <span class="button" onclick="changeColor('default')">100</span>
-                                <span class="button" onclick="changeColor('default')">500</span>
-                                <span class="button" onclick="changeColor('default')">2000</span>
-                                <span class="button" onclick="changeColor('default')">4000</span>
+                                <span class="button" onclick="addHeatmap(100)">100</span>
+                                <span class="button" onclick="addHeatmap(500)">500</span>
+                                <span class="button" onclick="addHeatmap(2000)">2000</span>
+                                <span class="button" onclick="addHeatmap(4000)">4000</span>
+                                <span class="button" onclick="clearData('heatmap')">清除数据</span>
                             </div>
                         </li>
                     </ul>
-                    <span class="button" onclick="drawPoint()">画点</span>
-                    <span class="button" onclick="drawLine()">画线</span>
-                    <span class="button" onclick="drawCircle()">画圆</span>
-                    <span class="button" onclick="drawPolygon()">画多边形</span>
-                    <span class="button" onclick="drawRectangle()">画矩形</span>
                 </div>
                 <h3>地图事件</h3>
                 <div>
@@ -208,6 +173,26 @@
                                 </div>
                             </div>
                         </li>
+                        <li>
+                            <div>
+                                <label class="typeName">坐标转换：</label>
+                                <div class="typeOption">
+                                    <span class="button" onclick="measureDistance()">测距</span>
+                                    <span class="button" onclick="measureAngle()">测夹角</span>
+                                    <span class="button" onclick="measureArea()">测面积</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label class="typeName">坐标定位：</label>
+                                <div class="typeOption">
+                                    <span class="button" onclick="measureDistance()">测距</span>
+                                    <span class="button" onclick="measureAngle()">测夹角</span>
+                                    <span class="button" onclick="measureArea()">测面积</span>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
                 <h3>3D类功能</h3>
@@ -224,7 +209,7 @@
                 <h3>图像处理</h3>
                 <div>
                     <span class="button" onclick="measureDistance()">虚化图片</span>
-                    <span class="button" onclick="measureAngle()">自定义截图</span>
+                    <span class="button longButton" onclick="measureAngle()">自定义截图</span>
                     <span class="button" onclick="measureArea()">黑白</span>
                     <span class="button" onclick="drawPoint()">雕刻</span>
                     <span class="button" onclick="drawLine()">反色</span>

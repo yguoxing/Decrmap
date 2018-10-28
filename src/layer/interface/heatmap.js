@@ -1,8 +1,8 @@
 import { layerCtrl } from '../layerCtrl';
-import Line from '../Line';
+import Heatmap from '../Heatmap';
 
 function addLayer(options){
-    let layerInstance = new Line();
+    let layerInstance = new Heatmap();
     layerInstance.addLayer(options);
 }
 
@@ -11,10 +11,10 @@ function setData(options){
     layerIns.setData(options);
 }
 
-const line = {
+const heatmap = {
     addLayer: addLayer,
     setData: setData
 }
 
 
-export { line as Line }
+export { heatmap as Heatmap }

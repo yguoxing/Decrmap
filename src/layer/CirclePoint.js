@@ -34,7 +34,7 @@ export default class CirclePoint extends LayerBase {
             ele.style = ele.style || {};
             pointFea.setStyle(new ol.style.Style({
                 image: new ol.style.Circle({
-                    radius: ele.radius || this.defaultStyle.radius,
+                    radius: ele.style.radius || this.defaultStyle.radius,
                     fill: new ol.style.Fill({
                         color: ele.style.fillColor || this.defaultStyle.fill.color
                     }),

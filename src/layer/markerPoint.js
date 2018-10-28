@@ -10,7 +10,7 @@ export default class MarkerPoint extends LayerBase {
         super(options);
         this.layerType = CONST.LAYERTYPE.MARKERPOINT;
         this.defaultStyle = {
-            size: 20,
+            size: [20, 20],
             offset: [0, 0]
         }
     }
@@ -29,6 +29,8 @@ export default class MarkerPoint extends LayerBase {
             pointFea.setStyle(new ol.style.Style({
                 image: new ol.style.Icon({
                     src: ele.src,
+                    scale: ele.scale,
+                    size: ele.size,
                     offset: ele.offset || this.defaultStyle.offset
                 })
             }));

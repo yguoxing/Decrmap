@@ -4,12 +4,15 @@ const CONST = {
         GOOGLE: 'GOOGLE',
         GAODE: 'GAODE',
         BAIDU: 'BAIDU',
+        BLANK: 'BLANK',
         WMS: 'WMS'
     },
     LAYERTYPE: {
         CIRCLEPOINT: 'CIRCLEPOINT',
         MARKERPOINT: 'MARKERPOINT',
         LINE: 'LINE',
+        HEATMAP: 'HEATMAP',
+        TRACK: 'TRACK',
         POLYGON: 'POLYGON',
         SECTOR: 'SECTOR'
     },
