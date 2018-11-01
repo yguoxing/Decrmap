@@ -1,8 +1,6 @@
 import ol from 'openlayers';
-import { Log } from '../dataUtil/consoleLog';
-import LayerBase from "./LayerBase";
+import LayerBase from './LayerBase';
 import { CONST } from '../dataUtil/constant';
-import { mapCtrl } from '../map/mapCtrl';
 
 export default class Polygon extends LayerBase {
 
@@ -10,14 +8,14 @@ export default class Polygon extends LayerBase {
         super(options);
         this.layerType = CONST.LAYERTYPE.POLYGON;
         this.defaultStyle = {
-           fill: {
-               color: 'rgba(153,153,153,0.2)'
-           },
-           stroke: {
-               color: '#ccc',
-               width: 2
-           }
-        }
+            fill: {
+                color: 'rgba(153,153,153,0.2)'
+            },
+            stroke: {
+                color: '#ccc',
+                width: 2
+            }
+        };
     }
     
     addLayer(options){
@@ -39,7 +37,7 @@ export default class Polygon extends LayerBase {
                     color: ele.style.strokeColor || this.defaultStyle.stroke.color,
                     width: ele.style.strokeWidth || this.defaultStyle.stroke.width
                 })
-            }))
+            }));
             return pointFea;
         });
 

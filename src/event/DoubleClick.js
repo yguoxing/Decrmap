@@ -1,6 +1,5 @@
 import EventBase from './EventBase';
 import { CONST } from '../dataUtil/constant';
-import { mapCtrl } from '../map/mapCtrl';
 
 export default class DoubleClick extends EventBase {
 
@@ -9,17 +8,12 @@ export default class DoubleClick extends EventBase {
         this.EventType = CONST.EVENTTYPE.DOUBLECLICK;
     }
 
-    triggerCallback(sourceData){
+    triggerCallback(){
         this.callback();
     }
 
-    _getData(sourceData){
+    _getData(){
         let data = [];
-        if(this.layerId === 'dercmap_allLayer'){
-
-        }else{
-
-        }
-        return data
+        return data;
     }
 }

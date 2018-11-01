@@ -1,6 +1,5 @@
 import EventBase from './EventBase';
 import { CONST } from '../dataUtil/constant';
-import { mapCtrl } from '../map/mapCtrl';
 
 export default class MoveEnd extends EventBase {
 
@@ -9,17 +8,13 @@ export default class MoveEnd extends EventBase {
         this.EventType = CONST.EVENTTYPE.MOVEEND;
     }
 
-    triggerCallback(sourceData){
+    triggerCallback(){
         this.callback();
     }
 
-    _getData(sourceData){
+    _getData(){
         let data = [];
-        if(this.layerId === 'dercmap_allLayer'){
-
-        }else{
-
-        }
-        return data
+        // if(this.layerId === 'dercmap_allLayer'){}
+        return data;
     }
 }

@@ -1,32 +1,23 @@
 import ol from 'openlayers';
 import MapBase from './MapBase';
-import { CONST } from '../dataUtil/constant';
-import { Log } from '../dataUtil/consoleLog';
 
 ol.source.gaodeSource = function(options){
-    var options = options ? options : {};
+    options = options ? options : {};
 
-      var attributions;
-      if(options.attributions !== undefined){
-          attributions = option.attributions;
-      }else{
-          attributions = [ol.source.gaodeSource.ATTRIBUTION];
-      }
-
-      var url;
-      if(options.mapType == "sat"){
-          url ="http://webst0{1-4}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}";
-      }else{
-          url = "http://webrd0{1-4}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}";
-      }
+    var url;
+    if(options.mapType == 'sat'){
+        url ='http://webst0{1-4}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}';
+    }else{
+        url = 'http://webrd0{1-4}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}';
+    }
 
     ol.source.XYZ.call(this, {
         crossOrigin: 'anonymous',   //跨域
         projection: ol.proj.get('EPSG:3857'),
         url:url,
         wrapX: options.wrapX !== undefined ? options.wrapX : true
-      });
-}
+    });
+};
 
 ol.inherits(ol.source.gaodeSource,ol.source.TileImage);
 
@@ -46,22 +37,22 @@ export default class Gaode extends MapBase {
         return new ol.layer.Tile({
             source: this.createRoadSource(),
             baselayer: true
-        })
+        });
     }
 
     createRoadSource(){
         return new ol.source.gaodeSource({
-            mapType: "",
+            mapType: '',
             wrapX: false,
             crossOrigin: 'anonymous'
-        })
+        });
     }
 
     switchSatellite(){
         this.getBaselayer().setSource(new ol.source.gaodeSource({
-            mapType: "sat",
+            mapType: 'sat',
             wrapX: false,
             crossOrigin: 'anonymous'
-        }))
+        }));
     }
 }

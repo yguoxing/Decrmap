@@ -34,30 +34,30 @@ function removeMap(mapId){
  * @param {String} mapId 地图ID
  */
 function _getMapObj(mapId){
-    return mapCollection[mapId]
+    return mapCollection[mapId];
 }
 
 function _registerSingle(mapId){
     mapCollection[mapId].olMap.on('singleclick',function(e){
         eventCtrl.triggerSingle(e);
-    })
+    });
 }
 
 function _registerDouble(mapId){
     mapCollection[mapId].olMap.on('dblclick',function(e){
         eventCtrl.triggerDouble(e);
-    })
+    });
 }
 
 function _registerMoveend(mapId){
     mapCollection[mapId].olMap.on('moveend',function(e){
         eventCtrl.triggerMoveend(e);
-    })
+    });
 }
 
 /**
  * 设置底图中心点，支持更新地图中心点和地图级别，当为空时，不更新
- * @param {Object} opition 
+ * @param {Object} opition 地图ID
  */
 function setMapCenter(opition){
     let olView = _getMapObj(opition.mapId).olMap.getView();
@@ -72,7 +72,7 @@ function setMapCenter(opition){
 
 /**
  * 获取当前地图中心点和地图级别
- * @param {Object} opition 
+ * @param {Object} opition 地图ID
  * @return {Object}
  */
 function getMapCenter(opition){
@@ -81,12 +81,12 @@ function getMapCenter(opition){
     return {
         zoom: olView.getZoom(),
         center: geoUtil.projTo4326(olView.getCenter())
-    }
+    };
 }
 
 /**
  * 根据范围居中地图位置
- * @param {Object} opition 
+ * @param {Object} opition 地图ID 点范围
  */
 function fitMapExtent(opition){
     let transExtent = geoUtil.projExtentTo3857(opition.extent);
@@ -96,24 +96,24 @@ function fitMapExtent(opition){
 
 /**
  * 获取图层范围
- * @param {Object} opition 
+ * @param {Object} opition 地图ID
  */
 function getMapExtent(opition){
     let size = _getMapObj(opition.mapId).olMap.getSize();
     let olView = _getMapObj(opition.mapId).olMap.getView();
-    return geoUtil.projExtentTo4326(olView.calculateExtent(size))
+    return geoUtil.projExtentTo4326(olView.calculateExtent(size));
 }
 
 /**
  * 更换底图图层，新图层将替换原有图层
- * @param {Object} opition 
+ * @param {Object} opition 地图ID
  */
 function updateBaselayer(opition){
     const mapIns = _getMapObj(opition.mapId);
     let newMapIns;
     switch (opition.type){
         case CONST.MAPTYPE.WMS :
-            newMapIns = new wms(mapIns);
+            newMapIns = new Wms(mapIns);
             break;
         case CONST.MAPTYPE.BAIDU :
             newMapIns = new Baidu(mapIns);
@@ -142,7 +142,7 @@ function updateBaselayer(opition){
         if(e.get('baselayer')){
             layers.setAt(i, newBaselayer);
         }
-    })
+    });
     newMapIns.createChange();
     mapCollection[opition.mapId] = newMapIns;
     newMapIns.olMap.updateSize();
@@ -150,33 +150,33 @@ function updateBaselayer(opition){
 
 /**
  * 设置底图是否可见
- * @param {Object} opition 
+ * @param {Object} opition 地图ID
  */
 function setBaselayerVisible(opition){
     const olMap = _getMapObj(opition.mapId).olMap;
     let layers = olMap.getLayers().getArray();
     const baselayer = layers.filter(l => {
-        return l.get('baselayer')
+        return l.get('baselayer');
     })[0];
     baselayer.setVisible(opition.visible);
 }
 
 /**
  * 设置底图透明度
- * @param {Object} opition 
+ * @param {Object} opition 地图ID
  */
 function setBaselayerOpacity(opition){
     const olMap = _getMapObj(opition.mapId).olMap;
     let layers = olMap.getLayers().getArray();
     const baselayer = layers.filter(l => {
-        return l.get('baselayer')
+        return l.get('baselayer');
     })[0];
     baselayer.setOpacity(opition.opacity);
 }
 
 /**
  * 更新地图控件，会覆盖原加载的控件
- * @param {Object} opition 
+ * @param {Object} opition 地图ID
  */
 function updateControl(opition){
     let loadedCtrls = controlCtrl.getAllCtrl(opition.mapId);
@@ -189,14 +189,14 @@ function updateControl(opition){
             }else{
                 removeCtrls.push(c.type);
             }
-        })
-    })
+        });
+    });
     
     opition.ctrls.forEach(i => {
         if(remainCtrls.indexOf(i.type) < 0){
             newAddCtrls.push(i);
         }
-    })
+    });
     
     controlCtrl.remainCtrls(opition.mapId, removeCtrls);
     controlCtrl.addCtrl(opition.mapId, newAddCtrls);
@@ -204,7 +204,7 @@ function updateControl(opition){
 
 /**
  * 地图大小更新后刷新地图接口，避免图层失真
- * @param {*} opition 
+ * @param {*} opition 地图ID
  */
 function updateSize(opition){
     let olMap = _getMapObj(opition.mapId).olMap;
@@ -236,9 +236,9 @@ function transform(coordinate, sourceoProj){
 
 function transExtent(extent, sourceoProj){
     if(sourceoProj === 'EPSG:3857'){
-        return geoUtil.projExtentTo4326(coordinate);
+        return geoUtil.projExtentTo4326(extent);
     }else{
-        return geoUtil.projExtentTo3857(coordinate);
+        return geoUtil.projExtentTo3857(extent);
     }
 }
 
@@ -261,7 +261,8 @@ let mapCtrl = {
     switchSatellite: switchSatellite,
     switchRoad: switchRoad,
     transform: transform,
-    transExtent: transExtent
-}
+    transExtent: transExtent,
+    updateSize: updateSize
+};
 
-export { mapCtrl }
+export { mapCtrl };

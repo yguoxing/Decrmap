@@ -1,4 +1,3 @@
-import { Log } from '../dataUtil/consoleLog';
 import { dataHandler } from '../dataUtil/dataHandler';
 
 export default class EventBase {

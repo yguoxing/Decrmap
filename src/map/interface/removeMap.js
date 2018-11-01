@@ -1,5 +1,5 @@
-import { mapCtrl } from "../mapCtrl";
-import { Log } from "../../dataUtil/consoleLog";
+import { mapCtrl } from '../mapCtrl';
+import { Log } from '../../dataUtil/consoleLog';
 
 function removeMap(mapId) {
     const mapObj = mapCtrl.getMapObj(mapId);

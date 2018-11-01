@@ -14,7 +14,6 @@ function setData(options){
 const polygon = {
     addLayer: addLayer,
     setData: setData
-}
+};
 
-
-export { polygon as Polygon }
+export { polygon as Polygon };

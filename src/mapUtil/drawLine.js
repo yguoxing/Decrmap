@@ -66,12 +66,12 @@ export default class DrawLine extends MapUtilBase {
         overlay.set('popId', this.popId);
         mapCtrl.getMapObj(this.mapId).olMap.addOverlay(overlay);
         var self = this;
-        popHtml.lastChild.addEventListener('click', function(e){
+        popHtml.lastChild.addEventListener('click', function(){
             self.closeUtil();
         });
         let coordinate = e.feature.getGeometry().getCoordinates().map(c => {
-            return geoUtil.projTo4326(c)
-        })
+            return geoUtil.projTo4326(c);
+        });
         if(this.callback){
             this.callback({
                 mapId: this.mapId,

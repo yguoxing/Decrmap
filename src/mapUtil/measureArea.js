@@ -56,7 +56,7 @@ export default class MeasureAngle extends MapUtilBase {
                 if(point[0].length > 2){
                     let transformPoint = point[0].map(e => {
                         return geoUtil.projTo4326(e);
-                    })
+                    });
                     showArea = self._getArea(transformPoint);
                 }
                 
@@ -79,10 +79,10 @@ export default class MeasureAngle extends MapUtilBase {
                         width: 1
                     }),
                     text: textStyle
-                })
+                });
 
-                return contentStyle
-            })
+                return contentStyle;
+            });
         });
     }
 
@@ -92,7 +92,7 @@ export default class MeasureAngle extends MapUtilBase {
         if(point[0].length > 2){
             let transformPoint = point[0].map(e => {
                 return geoUtil.projTo4326(e);
-            })
+            });
             showArea = this._getArea(transformPoint);
         }
         e.feature.setStyle(new ol.style.Style({
@@ -121,7 +121,7 @@ export default class MeasureAngle extends MapUtilBase {
         overlay.set('popId', this.popId);
         mapCtrl.getMapObj(this.mapId).olMap.addOverlay(overlay);
         var self = this;
-        popHtml.lastChild.addEventListener('click', function(e){
+        popHtml.lastChild.addEventListener('click', function(){
             self.closeUtil.call(self);
         });
         if(this.callback){
@@ -129,7 +129,7 @@ export default class MeasureAngle extends MapUtilBase {
                 mapId: this.mapId,
                 area: this.exactArea,
                 coordinates: this.points
-            })
+            });
         }
 
         setTimeout(() => {
@@ -157,15 +157,11 @@ export default class MeasureAngle extends MapUtilBase {
      * @return {Object} area: 实际呈现面积(已四舍五入), exactArea:准确面积(平凡米)
      */
     _getArea(e){
-        let olMap = mapCtrl.getMapObj(this.mapId).olMap;
-        let pixPoints = e.map(o =>{
-            return olMap.getPixelFromCoordinate(o);
-        });
         let exactArea = Math.abs(geoUtil.getArea(e));
         let  area = exactArea > 1000000? Number((exactArea/1000000).toFixed(2)) + '平方公里': Number(exactArea.toFixed(2)) + '平方米';
         this.exactArea = exactArea;
         this.points = e;
-        return area
+        return area;
     }
 
     closeUtil(){

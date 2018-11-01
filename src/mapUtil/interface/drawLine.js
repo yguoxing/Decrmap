@@ -1,4 +1,4 @@
-import DrawLine from "../DrawLine";
+import DrawLine from '../DrawLine';
 import { utilCtrl } from '../mapUtilCtrl';
 
 function drawLine(options) {

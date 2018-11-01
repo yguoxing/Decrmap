@@ -1,4 +1,4 @@
-import Baidu from "../Baidu";
+import Baidu from '../Baidu';
 import { mapCtrl } from '../mapCtrl';
 import { controlCtrl } from '../../control/controlCtrl';
 

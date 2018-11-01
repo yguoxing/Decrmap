@@ -3,12 +3,12 @@ function getUUID(type) {
     function getCode() {
         return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
     }
-    return (type + '_' + getCode() + getCode() + "-" + getCode());
+    return (type + '_' + getCode() + getCode() + '-' + getCode());
 }
 
 /**
  * 一维数组去重
- * @param {Array} arr 
+ * @param {Array} arr 原数组
  */
 function uniqueArray(arr){
     var hash=[];
@@ -44,9 +44,9 @@ function calVectorAngle(vector1, vector2){
     //计算向量夹角
     dot = x1 * x2 + y1 * y2;
     if ( Math.abs(dot-1.0) <= epsilon ){
-		angle = 0.0;
+        angle = 0.0;
     }else if ( Math.abs(dot+1.0) <= epsilon ){
-		angle = nyPI;
+        angle = nyPI;
     }else {
         //利用向量叉乘计算向量夹角是否大于180
         var cross;
@@ -68,27 +68,26 @@ function calVectorAngle(vector1, vector2){
 function getBeizerPoint(points){
     function createCurve(originPoint, originCount){
         let curvePoint = [];
-        //控制点收缩系数 ，经调试0.6较好，CvPoint是opencv的，可自行定义结构体(x,y)  
+        //控制点收缩系数 ，经调试0.6较好
         let scale = 0.6;
-        let midpoints = [];  
-        //生成中点       
+        let midpoints = [];
+        //生成中点
         for(let i = 0 ;i < originCount ; i++){
             let nexti = (i + 1);
             if(i === originCount -1 ){
                 nexti = i;
             }
             midpoints[i] = {};
-            midpoints[i].x = (originPoint[i][0] + originPoint[nexti][0])/2.0;  
-            midpoints[i].y = (originPoint[i][1] + originPoint[nexti][1])/2.0;  
+            midpoints[i].x = (originPoint[i][0] + originPoint[nexti][0])/2.0;
+            midpoints[i].y = (originPoint[i][1] + originPoint[nexti][1])/2.0;
         }
         
-        //平移中点  
+        //平移中点
         let extrapoints = [];
         for(let i = 0 ;i < originCount ; i++){
             if(!extrapoints[i]){
                 extrapoints[i] = [];
             }
-            let nexti = i + 1;
             let backi = (i + originCount - 1) % originCount;
             let midinmid = {};
             midinmid.x = (midpoints[i].x + midpoints[backi].x)/2.0;
@@ -100,7 +99,7 @@ function getBeizerPoint(points){
             extrapoints[extraindex] = [];
             extrapoints[extraindex][0] = midpoints[backi].x + offsetx;
             extrapoints[extraindex][1] = midpoints[backi].y + offsety;
-            //朝 originPoint[i]方向收缩 
+            //朝originPoint[i]方向收缩
             let addx = (extrapoints[extraindex][0] - originPoint[i][0]) * scale;
             let addy = (extrapoints[extraindex][1] - originPoint[i][1]) * scale;
             extrapoints[extraindex][0] = originPoint[i][0] + addx;
@@ -110,7 +109,7 @@ function getBeizerPoint(points){
             extrapoints[extranexti] = [];
             extrapoints[extranexti][0] = midpoints[i].x + offsetx;
             extrapoints[extranexti][1] = midpoints[i].y + offsety;
-            //朝 originPoint[i]方向收缩
+            //朝originPoint[i]方向收缩
             addx = (extrapoints[extranexti][0] - originPoint[i][0]) * scale;
             addy = (extrapoints[extranexti][1] - originPoint[i][1]) * scale;
             extrapoints[extranexti][0] = originPoint[i][0] + addx;
@@ -143,8 +142,9 @@ function getBeizerPoint(points){
             }
         }
         return curvePoint;
-    }  
-    //三次贝塞尔曲线  
+    }
+
+    //三次贝塞尔曲线
     function bezier3funcX(uu, controlP){
         let part0 = controlP[0][0] * uu * uu * uu;
         let part1 = 3 * controlP[1][0] * uu * uu * (1 - uu);
@@ -170,4 +170,4 @@ const dataHandler = {
     getBeizerPoint: getBeizerPoint,
     calVectorAngle: calVectorAngle
 };
-export { dataHandler }
+export { dataHandler };

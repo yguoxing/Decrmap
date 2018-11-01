@@ -1,4 +1,4 @@
-import DrawPoint from "../DrawPoint";
+import DrawPoint from '../DrawPoint';
 import { utilCtrl } from '../mapUtilCtrl';
 
 function drawPoint(options) {

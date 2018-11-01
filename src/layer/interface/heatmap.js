@@ -14,7 +14,6 @@ function setData(options){
 const heatmap = {
     addLayer: addLayer,
     setData: setData
-}
+};
 
-
-export { heatmap as Heatmap }
+export { heatmap as Heatmap };

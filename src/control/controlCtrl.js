@@ -5,7 +5,6 @@ import MousePosition from './MousePosition';
 import { mapCtrl } from '../map/mapCtrl';
 import { CONST } from '../dataUtil/constant';
 
-
 let ctrlCollection = {};
 
 function _setCtrl(mapId, type, zoomObj){
@@ -25,7 +24,7 @@ function removeCtrls(mapId, ctrls){
         if(ctrlCollection[mapId] && ctrlCollection[mapId][c]){
             delete ctrlCollection[mapId][c];
         }
-    })
+    });
 }
 
 function getAllCtrl(mapId){
@@ -65,7 +64,7 @@ function addCtrl(mapId, ctrls){
             }
             olMap.addControl(ctrlObj.olCtrl);
         }
-    })
+    });
 }
 
 function updateCtrl(mapId, ctrls){
@@ -83,4 +82,4 @@ let controlCtrl = {
     updateCtrl: updateCtrl
 };
 
-export { controlCtrl }
+export { controlCtrl };

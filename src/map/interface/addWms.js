@@ -1,4 +1,4 @@
-import Wms from "../Wms";
+import Wms from '../Wms';
 
 function addWmsMap(mapId, options) {
     let wmsObj = new Wms();

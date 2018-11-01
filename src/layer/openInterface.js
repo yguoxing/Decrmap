@@ -9,6 +9,6 @@ let openInterface = {
     setLayerOpacity: layerCtrl.setLayerOpacity,
     getLayerData: layerCtrl.getLayerData,
     getLayerParam: layerCtrl.getLayerParam
-}
+};
 
-export { openInterface }
+export { openInterface };

@@ -1,9 +1,8 @@
-import ol from 'openlayers';
 import { mapCtrl } from '../map/mapCtrl';
 import { dataHandler } from '../dataUtil/dataHandler';
 import { layerCtrl } from '../layer/layerCtrl';
 import { CONST } from '../dataUtil/constant';
-import LayerBase from "./../layer/LayerBase";
+import LayerBase from './../layer/LayerBase';
 
 export default class MapUtilBase {
 

@@ -1,5 +1,3 @@
-import { mapCtrl } from '../map/mapCtrl';
-
 let utilCollection = {};
 
 function setUtil(options){
@@ -18,14 +16,10 @@ function removeAllUtil(mapId){
     delete utilCollection[mapId];
 }
 
-function deActive(options){
-
-}
-
 function getUtilIns(options){
     let filterIns = null;
     if(utilCollection[options.mapId]){
-        return utilCollection[options.mapId][options.utilId] || null
+        return utilCollection[options.mapId][options.utilId] || null;
     }
     return filterIns;
 }
@@ -56,6 +50,6 @@ let utilCtrl = {
     isUtilExist: isUtilExist,
     setActive: setActive,
     isActive: isActive
-}
+};
 
-export { utilCtrl }
+export { utilCtrl };

@@ -14,7 +14,6 @@ function setData(options){
 const line = {
     addLayer: addLayer,
     setData: setData
-}
+};
 
-
-export { line as Line }
+export { line as Line };

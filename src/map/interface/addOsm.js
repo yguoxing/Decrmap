@@ -1,4 +1,4 @@
-import Osm from "../Osm";
+import Osm from '../Osm';
 import { mapCtrl } from '../mapCtrl';
 import { controlCtrl } from '../../control/controlCtrl';
 

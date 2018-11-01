@@ -14,7 +14,6 @@ function setData(options){
 const markerPoint = {
     addLayer: addLayer,
     setData: setData
-}
+};
 
-
-export { markerPoint as MarkerPoint }
+export { markerPoint as MarkerPoint };

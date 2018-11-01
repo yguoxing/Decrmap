@@ -1,6 +1,6 @@
 import ol from 'openlayers';
 import { Log } from '../dataUtil/consoleLog';
-import LayerBase from "./LayerBase";
+import LayerBase from './LayerBase';
 import { CONST } from '../dataUtil/constant';
 import { mapCtrl } from '../map/mapCtrl';
 
@@ -18,16 +18,16 @@ export default class CirclePoint extends LayerBase {
             fill: {
                 color: '#4bea6f'
             }
-        }
+        };
     }
     
     addLayer(options){
         let existLayer = mapCtrl.getMapObj(options.mapId).DLayer.filter(ele => {
-            return ele.layerId === options.layerId
+            return ele.layerId === options.layerId;
         });
         if(existLayer.length !== 0){
             Log.warn('Add layer ' + options.layerId + ' already exists');
-            return
+            return;
         }
 
         let layerInstance = new ol.layer.Heatmap({

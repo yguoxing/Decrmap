@@ -48,7 +48,7 @@ export default class DrawCircle extends MapUtilBase {
                     geometry=new ol.geom.LineString(null);
                 }
                 geometry.setCoordinates(e);
-                return geometry
+                return geometry;
             }
         });
 
@@ -75,7 +75,7 @@ export default class DrawCircle extends MapUtilBase {
         overlay.set('popId', this.popId);
         mapCtrl.getMapObj(this.mapId).olMap.addOverlay(overlay);
         var self = this;
-        popHtml.lastChild.addEventListener('click', function(e){
+        popHtml.lastChild.addEventListener('click', function(){
             self.closeUtil();
         });
         if(this.callback){
@@ -89,8 +89,6 @@ export default class DrawCircle extends MapUtilBase {
         setTimeout(() => {
             this.setActive(false);
         }, 200);
-
-
     }
 
     /**
@@ -108,11 +106,11 @@ export default class DrawCircle extends MapUtilBase {
 
         let outerFea = utilSource.getFeatureById(this.outerId);
         if(outerFea){
-            outerFea.setGeometry(new ol.geom.Point(point[0]))
+            outerFea.setGeometry(new ol.geom.Point(point[0]));
         }else{
             outerFea = new ol.Feature({
                 geometry: new ol.geom.Point(point[0])
-            })
+            });
             outerFea.setId(this.outerId);
         }
 
@@ -127,7 +125,7 @@ export default class DrawCircle extends MapUtilBase {
                     color: 'rgba(206, 113, 125, 0.3)'
                 })
             })
-        })
+        });
         outerFea.setStyle(outerStyle);
         utilSource.addFeature(outerFea);
     }

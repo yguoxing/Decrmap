@@ -1,4 +1,4 @@
-import MeasureAngle from "../MeasureAngle";
+import MeasureAngle from '../MeasureAngle';
 import { utilCtrl } from '../mapUtilCtrl';
 
 function openMeasureAngle(options) {

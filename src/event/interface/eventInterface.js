@@ -10,4 +10,4 @@ let Event = {
     registerMoveend: registerMoveend
 };
 
-export { Event }
+export { Event };

@@ -77,7 +77,7 @@ export default class DrawPoint extends MapUtilBase {
         overlay.set('popId', this.popId);
         mapCtrl.getMapObj(this.mapId).olMap.addOverlay(overlay);
         var self = this;
-        popHtml.lastChild.addEventListener('click', function(e){
+        popHtml.lastChild.addEventListener('click', function(){
             self.closeUtil();
         });
         if(this.callback){

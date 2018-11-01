@@ -4,7 +4,7 @@ import { mapCtrl } from '../map/mapCtrl';
 
 export default class LayerBase {
 
-    constructor(options) {
+    constructor() {
         this.layerId = null;
         this.data = [];
         this.labelName = '';
@@ -14,11 +14,11 @@ export default class LayerBase {
     addLayer(options){
 
         let existLayer = mapCtrl.getMapObj(options.mapId).DLayer.filter(ele => {
-            return ele.layerId === options.layerId
+            return ele.layerId === options.layerId;
         });
         if(existLayer.length !== 0){
             Log.warn('Add layer ' + options.layerId + ' already exists');
-            return
+            return;
         }
 
         let layerInstance = new ol.layer.Vector({
@@ -35,15 +35,11 @@ export default class LayerBase {
         }
     }
 
-    setData(layerId, data){
+    setData(){
 
     }
 
-    removeLayer(options){
-        let mapIns = mapCtrl.getMapObj(options.mapId);
-        mapIns.removeLayer(this.olLayer);
-        let layerArr = mapIns.DLayer;
-        layerArr.splice(layerArr.findIndex(e => e.layerId == options.layerId), 1);
+    removeLayer(){
     }
 
     setLayerOpacity(options){

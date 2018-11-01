@@ -1,4 +1,4 @@
-import MeasureArea from "../MeasureArea";
+import MeasureArea from '../MeasureArea';
 import { utilCtrl } from '../mapUtilCtrl';
 
 function openMeasureArea(options) {

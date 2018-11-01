@@ -1,4 +1,4 @@
-import Gaode from "../Gaode";
+import Gaode from '../Gaode';
 import { mapCtrl } from '../mapCtrl';
 import { controlCtrl } from '../../control/controlCtrl';
 

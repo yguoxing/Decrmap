@@ -1,4 +1,4 @@
-import Blank from "../Blank";
+import Blank from '../Blank';
 import { mapCtrl } from '../mapCtrl';
 import { controlCtrl } from '../../control/controlCtrl';
 

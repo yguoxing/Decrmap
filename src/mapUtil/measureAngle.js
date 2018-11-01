@@ -40,7 +40,7 @@ export default class MeasureAngle extends MapUtilBase {
                     geometry=new ol.geom.LineString(null);
                 }
                 geometry.setCoordinates(e);
-                return geometry
+                return geometry;
             }
         });
 
@@ -72,15 +72,15 @@ export default class MeasureAngle extends MapUtilBase {
         overlay.set('popId', this.popId);
         mapCtrl.getMapObj(this.mapId).olMap.addOverlay(overlay);
         var self = this;
-        popHtml.lastChild.addEventListener('click', function(e){
+        popHtml.lastChild.addEventListener('click', function(){
             self.closeUtil();
         });
 
         if(this.callback){
             this.callback({
-                mapId: mapId,
+                mapId: this.mapId,
                 angle: this.angle
-            })
+            });
         }
 
         setTimeout(() => {
@@ -108,13 +108,13 @@ export default class MeasureAngle extends MapUtilBase {
      */
     _getAngle(e){
         if(e.length != 3){
-            return
+            return;
         }
         let olMap = mapCtrl.getMapObj(this.mapId).olMap;
 
         let pixPoints = e.map(o =>{
             return olMap.getPixelFromCoordinate(o);
-        })
+        });
         let firstVector = [pixPoints[0][0] - pixPoints[1][0], -pixPoints[0][1] + pixPoints[1][1]];
         let secondVector = [pixPoints[2][0] - pixPoints[1][0], -pixPoints[2][1] + pixPoints[1][1]];
         let angle = dataHandler.calVectorAngle(firstVector, secondVector);

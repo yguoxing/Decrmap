@@ -13,12 +13,12 @@ function setData(options){
 
 function stop(options){
     var layerIns = layerCtrl.getLayerIns(options);
-    layerIns.stop();
+    layerIns.stop(options.id);
 }
 
 function start(options){
     var layerIns = layerCtrl.getLayerIns(options);
-    layerIns.start();
+    layerIns.start(options.id);
 }
 
 const track = {
@@ -26,7 +26,6 @@ const track = {
     setData: setData,
     start: start,
     stop: stop
-}
+};
 
-
-export { track as Track }
+export { track as Track };

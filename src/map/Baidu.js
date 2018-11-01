@@ -1,9 +1,5 @@
 import ol from 'openlayers';
-import projzh from 'projzh';
 import MapBase from './MapBase';
-import { CONST } from '../dataUtil/constant';
-import { Log } from '../dataUtil/consoleLog';
-
 
 /* ol.source.BaiduMap = function(options){
     var options = options ? options : {};
@@ -28,7 +24,6 @@ import { Log } from '../dataUtil/consoleLog';
     ol.proj.addProjection(baiduMercator);
     ol.proj.addCoordinateTransforms('EPSG:4326', baiduMercator, projzh.ll2bmerc, projzh.bmerc2ll);
     ol.proj.addCoordinateTransforms('EPSG:3857', baiduMercator, projzh.smerc2bmerc, projzh.bmerc2smerc);
-
 
       var resolutions = [];
     for(var i=0; i<19; i++){
@@ -72,15 +67,15 @@ import { Log } from '../dataUtil/consoleLog';
       });
 } */
 
-var projection = ol.proj.get("EPSG:3857");  
-var resolutions = [];  
-for (var i = 0; i < 19; i++) {  
-    resolutions[i] = Math.pow(2, 18 - i);  
-}  
-var tilegrid = new ol.tilegrid.TileGrid({  
-    origin: [0, 0],  
-    resolutions: resolutions  
-});  
+var projection = ol.proj.get('EPSG:3857');
+var resolutions = [];
+for (var i = 0; i < 19; i++) {
+    resolutions[i] = Math.pow(2, 18 - i);
+}
+var tilegrid = new ol.tilegrid.TileGrid({
+    origin: [0, 0],
+    resolutions: resolutions
+});
 
 ol.source.baiduSource = function (options){
     var satUrls = [0, 1, 2, 3, 4].map(function(sub) {
@@ -95,9 +90,9 @@ ol.source.baiduSource = function (options){
         crossOrigin: 'anonymous',
         projection: projection,
         tileGrid: tilegrid,
-        tileUrlFunction: function (tileCoord, pixelRatio, proj) {  
+        tileUrlFunction: function (tileCoord) {
             
-            if(!tileCoord) return "";
+            if(!tileCoord) return '';
 
             var z = tileCoord[0];
             var x = tileCoord[1];
@@ -105,31 +100,13 @@ ol.source.baiduSource = function (options){
             var hash = (x << z) + y;
             var index = hash % urls.length;
             index = index < 0 ? index + urls.length : index;
-            if(options.mapType == "sat"){
+            if(options.mapType == 'sat'){
                 return satUrls[index].replace('{x}', x).replace('{y}', y).replace('{z}', z);
-              }
+            }
             return urls[index].replace('{x}', x).replace('{y}', y).replace('{z}', z);
-            
-            /* if (!tileCoord) {  
-                return ""; 
-            }
-            var z = tileCoord[0];
-            var x = tileCoord[1];
-            var y = tileCoord[2];
-    
-            if (x < 0) {
-                x = "M" + (-x);
-            }
-            if (y < 0) {
-                y = "M" + (-y);
-            }
-    
-            return "http://online3.map.bdimg.com/onlinelabel/?qt=tile&x=" + x + "&y=" + y + "&z=" + z + "&styles=pl&udt=20151021&scaler=1&p=1"; */
         }
     });
-}
-
- 
+};
 
 ol.inherits(ol.source.baiduSource,ol.source.TileImage);
 
@@ -154,15 +131,15 @@ export default class Baidu extends MapBase {
 
     createRoadSource(){
         return new ol.source.baiduSource({
-            mapType: "",
+            mapType: '',
             wrapX: false,
             crossOrigin: 'anonymous'
-        })
+        });
     }
 
     switchSatellite(){
         this.getBaselayer().setSource(new ol.source.baiduSource({
-            mapType: "sat",
+            mapType: 'sat',
             wrapX: false,
             crossOrigin: 'anonymous'
         }));

@@ -1,4 +1,4 @@
-import DrawRectangle from "../DrawRectangle";
+import DrawRectangle from '../DrawRectangle';
 import { utilCtrl } from '../mapUtilCtrl';
 
 function drawRectangle(options) {

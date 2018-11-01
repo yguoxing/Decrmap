@@ -51,7 +51,7 @@ export default class MeasureDistance extends MapUtilBase {
                     geometry=new ol.geom.LineString(null);
                 }
                 geometry.setCoordinates(e);
-                return geometry
+                return geometry;
             }
         });
 
@@ -86,7 +86,7 @@ export default class MeasureDistance extends MapUtilBase {
         overlay.set('popId', self.popId);
         mapCtrl.getMapObj(self.mapId).olMap.addOverlay(overlay);
         overlay.getElement().parentElement.style.zIndex = 10;
-        popHtml.lastChild.addEventListener('click', function(e){
+        popHtml.lastChild.addEventListener('click', function(){
             self.closeUtil();
         });
         if(this.callback){
@@ -95,7 +95,7 @@ export default class MeasureDistance extends MapUtilBase {
                 mapId: this.mapId,
                 distance: this.oldDistance,
                 coordinates: this.points
-            })
+            });
         }
         setTimeout(() => {
             this.setActive(false);
@@ -108,7 +108,7 @@ export default class MeasureDistance extends MapUtilBase {
      */
     _drawing(e){
         if(this.points.length - e.length === 0){
-            return
+            return;
         }
         let position = [0, 0], flag, overlayerId = this.popId;
         // 鼠标点击地图模式
@@ -160,7 +160,7 @@ export default class MeasureDistance extends MapUtilBase {
      * @param {String} flag 测距模式
      * @param {Array} points 测距点
      */
-    _getDistanceTip(flag, points){
+    _getDistanceTip(flag){
         let tipInfo = '';
         
         if(flag === 'start'){
@@ -207,7 +207,7 @@ export default class MeasureDistance extends MapUtilBase {
      * 刷新拐点圆圈
      * @param {Array} options 点信息
      */
-    refreshCircle(options){
+    refreshCircle(){
         let source = this.getUtilSource();
         let circleFea = source.getFeatureById(this.circleFeaId);
         if(circleFea){
@@ -227,7 +227,7 @@ export default class MeasureDistance extends MapUtilBase {
                         color: 'white'
                     })
                 })
-            }))
+            }));
             circleFea.setId(this.circleFeaId);
             source.addFeature(circleFea);
         }

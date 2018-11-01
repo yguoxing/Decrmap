@@ -44,6 +44,6 @@ const CONST = {
     DEBUG: {
         SHOWLOG: false
     }
-}
+};
 
-export { CONST }
+export { CONST };

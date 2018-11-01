@@ -14,7 +14,6 @@ const overlay = {
     addPopup: addPopup,
     removePopup: overlayCtrl.removeOverlay,
     removeAllPopup: overlayCtrl.removeAllOverlay
-}
+};
 
-
-export { overlay }
+export { overlay };

@@ -18,6 +18,6 @@ let openInterface = {
     switchRoad: mapCtrl.switchRoad,
     transform: mapCtrl.transform,
     transExtent: mapCtrl.transExtent
-}
+};
 
-export { openInterface }
+export { openInterface };

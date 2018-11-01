@@ -1,4 +1,3 @@
-import { Log } from '../dataUtil/consoleLog';
 import { geoUtil } from '../dataUtil/geoUtil';
 import ol from 'openlayers';
 
@@ -27,7 +26,6 @@ export default class MapBase {
     }
 
     createChange(){
-        let layers = this.olMap.getLayers().getArray();
         let baselayer = this.getBaselayer();
         baselayer.getSource().on('tileloadend', Function.prototype.bind.apply(this.changeColor, [null].concat(this)));
     }
@@ -42,16 +40,16 @@ export default class MapBase {
             brightBlack: [[0.35, 0.35, 0.35], [0.35, 0.35, 0.35], [0.35, 0.35, 0.35]],
             red: [[0.07, 0.07, 0.07], [0.3, 0.3, 0.3], [0.3, 0.3, 0.3]],
             green: [[0.2, 0.2, 0.2], [0.1, 0.1, 0.1], [0.2, 0.2, 0.2]]
-        }
+        };
         if(Array.isArray(color)){
-            this.colorParam = color;    
+            this.colorParam = color;
         }else{
             this.colorParam = common[color];
         }
         
         let layers = this.olMap.getLayers().getArray();
         let baselayer = layers.filter(l => {
-            return l.get('baselayer')
+            return l.get('baselayer');
         })[0];
         baselayer.getSource().refresh();
     }
@@ -65,10 +63,10 @@ export default class MapBase {
         }
         let color = self.colorParam;
         let image = e.tile.getImage();
-        var tempC = document.createElement("canvas");
+        var tempC = document.createElement('canvas');
         tempC.width = image.width;
         tempC.height = image.height;
-        var ctx = tempC.getContext("2d");
+        var ctx = tempC.getContext('2d');
         ctx.drawImage(image, 0, 0, image.width, image.height);
         let imgData = ctx.getImageData(0,0,tempC.width,tempC.height);
         let oldR, oldG, oldB;
@@ -90,7 +88,7 @@ export default class MapBase {
      */
     getBaselayer(){
         return this.olMap.getLayers().getArray().filter(l => {
-            return l.get('baselayer')
+            return l.get('baselayer');
         })[0];
     }
 

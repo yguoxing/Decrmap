@@ -19,4 +19,4 @@ function registerLayerEvent(options){
     eventCtrl.setSingle(param);
 }
 
-export { registerLayerEvent }
+export { registerLayerEvent };

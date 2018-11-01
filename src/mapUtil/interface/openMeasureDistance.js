@@ -1,4 +1,4 @@
-import MeasureDistance from "../MeasureDistance";
+import MeasureDistance from '../MeasureDistance';
 import { utilCtrl } from '../mapUtilCtrl';
 
 function openMeasureDistance(options) {

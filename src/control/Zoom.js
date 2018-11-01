@@ -18,7 +18,7 @@ export default class Zoom extends ControlBase {
         registerMoveend({
             mapId: this.mapId,
             callback: this._setLevel
-        })
+        });
     }
 
     _setLevel(param){

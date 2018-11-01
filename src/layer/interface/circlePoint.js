@@ -14,7 +14,6 @@ function setData(options){
 const circlePoint = {
     addLayer: addLayer,
     setData: setData
-}
+};
 
-
-export { circlePoint as CirclePoint }
+export { circlePoint as CirclePoint };

@@ -1,4 +1,1 @@
 # /node_modules/* and /bower_components/* ignored by default
-
-scripts/libs
-scripts/fastmapSdk

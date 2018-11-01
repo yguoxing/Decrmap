@@ -28,11 +28,11 @@ function setDouble(options){
 function getClickData(options){
     let olMap = mapCtrl.getMapObj(options.mapId);
     let layerIns = olMap.DLayer.filter(ele => {
-        return ele.layerId === options.layerId
+        return ele.layerId === options.layerId;
     })[0];
     return layerIns.data.filter(e => {
-        return e.id === options.id
-    })
+        return e.id === options.id;
+    });
 }
 
 function triggerSingle(e){
@@ -52,6 +52,7 @@ function triggerSingle(e){
         }
     });
 
+    let filterData;
     if(eventColl && eventColl[CONST.MAPEVENTLAYER]){
         if(eventColl[CONST.MAPEVENTLAYER].getActive()){
             eventColl[CONST.MAPEVENTLAYER].callback(filterData);
@@ -62,7 +63,7 @@ function triggerSingle(e){
             if(eventColl[e.layerId].getActive()){
                 layerIns = layerCtrl.getLayerIns({mapId: mapId, layerId: e.layerId});
                 let featureData = layerIns.getLayerData.filter(d => {
-                    return d.id = e.get('id')
+                    return d.id = e.get('id');
                 })[0];
                 if(featureData){
                     showData.push({
@@ -70,10 +71,10 @@ function triggerSingle(e){
                         featureName: featureData.name || '未知',
                         callback: eventColl[e.layerId].callback,
                         data: featureData
-                    })
+                    });
                 }
             }
-        })
+        });
     }
 
     for(var o in eventColl){
@@ -83,24 +84,15 @@ function triggerSingle(e){
     }
 }
 
-function _dealLayerEvent(){
-    let popDom = document.createAttribute('div');
-}
-
-function dealInnerEvent(){
-
-}
-
-function triggerDouble(e){
-    const mapId = e.map.getTarget();
+function triggerDouble(){
 }
 
 function triggerMoveend(e){
     const mapId = e.map.getTarget();
     const level = e.map.getView().getZoom();
     moveendCollection[mapId].forEach(moveEvent => {
-        moveEvent.callback({mapId: mapId, level: level})
-    })
+        moveEvent.callback({mapId: mapId, level: level});
+    });
 }
 
 eventCtrl = {
@@ -112,6 +104,6 @@ eventCtrl = {
     triggerDouble: triggerDouble,
     triggerMoveend: triggerMoveend,
     getClickData: getClickData
-}
+};
 
-export { eventCtrl }
+export { eventCtrl };

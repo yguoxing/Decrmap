@@ -1,4 +1,4 @@
-import DrawPolygon from "../DrawPolygon";
+import DrawPolygon from '../DrawPolygon';
 import { utilCtrl } from '../mapUtilCtrl';
 
 function drawPolygon(options) {

@@ -1,6 +1,5 @@
 import ol from 'openlayers';
-import { Log } from '../dataUtil/consoleLog';
-import LayerBase from "./LayerBase";
+import LayerBase from './LayerBase';
 import { CONST } from '../dataUtil/constant';
 import { mapCtrl } from '../map/mapCtrl';
 import { geoUtil } from '../dataUtil/geoUtil';
@@ -13,7 +12,7 @@ export default class Line extends LayerBase {
         this.defaultStyle = {
             width: 3,
             color: '#4abf95'
-        }
+        };
     }
     
     addLayer(options){
@@ -38,7 +37,7 @@ export default class Line extends LayerBase {
                 let styleFun = function(){
                     let arrowStyle = self._getArrowStyle(ele, options.mapId);
                     return [lineStyle, arrowStyle];
-                }
+                };
                 lineFea.setStyle(styleFun);
 
             }else{
@@ -64,7 +63,7 @@ export default class Line extends LayerBase {
         let lineVector = [endPoint[0] - startPoint[0], endPoint[1] - startPoint[1]];
         let lineAngle = Math.acos(lineVector[0]/Math.sqrt(Math.pow(lineVector[0],2) + Math.pow(lineVector[1], 2), 2));
         if(lineVector[1]<0){
-            lineAngle = Math.PI*2 - lineAngle
+            lineAngle = Math.PI*2 - lineAngle;
         }
         //计算箭头点
         const arrowRadius = 6;
@@ -86,6 +85,6 @@ export default class Line extends LayerBase {
             geometry:new ol.geom.Point(center)
         });
         
-        return arrowStyle
+        return arrowStyle;
     }
 }

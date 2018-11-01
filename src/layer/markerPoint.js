@@ -1,8 +1,6 @@
 import ol from 'openlayers';
-import { Log } from '../dataUtil/consoleLog';
-import LayerBase from "./LayerBase";
+import LayerBase from './LayerBase';
 import { CONST } from '../dataUtil/constant';
-import { mapCtrl } from '../map/mapCtrl';
 
 export default class MarkerPoint extends LayerBase {
 
@@ -12,7 +10,7 @@ export default class MarkerPoint extends LayerBase {
         this.defaultStyle = {
             size: [20, 20],
             offset: [0, 0]
-        }
+        };
     }
     
     addLayer(options){

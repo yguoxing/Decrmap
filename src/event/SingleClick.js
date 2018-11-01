@@ -8,17 +8,13 @@ export default class SingleEvent extends EventBase {
         this.EventType = CONST.EVENTTYPE.SINGLECLICK;
     }
 
-    triggerCallback(sourceData){
+    triggerCallback(){
         this.callback();
     }
 
-    _getData(sourceData){
+    _getData(){
         let data = [];
-        if(this.layerId === 'dercmap_allLayer'){
-
-        }else{
-
-        }
-        return data
+        // if(this.layerId === 'dercmap_allLayer'){}
+        return data;
     }
 }

@@ -46,7 +46,7 @@ export default class DrawRectangle extends MapUtilBase {
                     geometry=new ol.geom.LineString(null);
                 }
                 geometry.setCoordinates(e);
-                return geometry
+                return geometry;
             }
         });
 
@@ -72,13 +72,13 @@ export default class DrawRectangle extends MapUtilBase {
         overlay.set('popId', this.popId);
         mapCtrl.getMapObj(this.mapId).olMap.addOverlay(overlay);
         var self = this;
-        popHtml.lastChild.addEventListener('click', function(e){
+        popHtml.lastChild.addEventListener('click', function(){
             self.closeUtil();
         });
         if(this.callback){
             let coordinate = this.points.map(e => {
-                return geoUtil.projTo4326(e)
-            })
+                return geoUtil.projTo4326(e);
+            });
             this.callback({
                 mapId: this.mapId,
                 coordinate: coordinate
@@ -88,8 +88,6 @@ export default class DrawRectangle extends MapUtilBase {
         setTimeout(() => {
             this.setActive(false);
         }, 200);
-
-
     }
 
     /**
@@ -97,18 +95,17 @@ export default class DrawRectangle extends MapUtilBase {
      * @param {Array} point 对角线定点
      */
     _drawing(point){
-        let olMap = mapCtrl.getMapObj(this.mapId).olMap;
         let utilSource = this.getUtilSource();
         let lonOne = point[0][0], lonTwo = point[1][0], latOne = point[0][1], latTwo = point[1][1];
         this.points = [[lonOne,latOne], [lonOne,latTwo], [lonTwo,latTwo], [lonTwo,latOne], [lonOne,latOne]];
 
         let outerFea = utilSource.getFeatureById(this.rectangleId);
         if(outerFea){
-            outerFea.setGeometry(new ol.geom.Polygon([this.points]))
+            outerFea.setGeometry(new ol.geom.Polygon([this.points]));
         }else{
             outerFea = new ol.Feature({
                 geometry: new ol.geom.Polygon([this.points])
-            })
+            });
             outerFea.setId(this.rectangleId);
         }
 
@@ -120,7 +117,7 @@ export default class DrawRectangle extends MapUtilBase {
             fill: new ol.style.Fill({
                 color: 'rgba(206, 113, 125, 0.3)'
             })
-        })
+        });
         outerFea.setStyle(outerStyle);
         utilSource.addFeature(outerFea);
     }

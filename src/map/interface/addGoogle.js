@@ -1,4 +1,4 @@
-import Google from "../Google";
+import Google from '../Google';
 import { mapCtrl } from '../mapCtrl';
 import { controlCtrl } from '../../control/controlCtrl';
 

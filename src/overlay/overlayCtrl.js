@@ -1,5 +1,4 @@
 import { mapCtrl } from '../map/mapCtrl';
-import { CONST } from '../dataUtil/constant';
 
 let overlayCollection = {};
 
@@ -26,7 +25,7 @@ function removeAllOverlay(mapId){
 
 /**
  * 获取overlay实例化对象
- * @param {*} options 
+ * @param {*} options 地图ID 弹出框ID
  */
 function _getOverlayIns(options){
     if(overlayCollection[options.mapId]){
@@ -45,6 +44,6 @@ let overlayCtrl = {
     removeAllOverlay: removeAllOverlay,
     _getOverlayIns: _getOverlayIns,
     _getAllOverlay: _getAllOverlay
-}
+};
 
-export { overlayCtrl }
+export { overlayCtrl };

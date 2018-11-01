@@ -6,6 +6,6 @@ let openInterface = {
     isUtilExist: utilCtrl.isUtilExist,
     setActive: utilCtrl.setActive,
     isActive: utilCtrl.isActive
-}
+};
 
-export { openInterface }
+export { openInterface };

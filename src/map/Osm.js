@@ -1,6 +1,5 @@
+import ol from 'openlayers';
 import MapBase from './MapBase';
-import { CONST } from '../dataUtil/constant';
-import { Log } from '../dataUtil/consoleLog';
 
 export default class Osm extends MapBase {
 
@@ -21,7 +20,7 @@ export default class Osm extends MapBase {
                 crossOrigin: 'anonymous'
             }),
             baselayer: true
-        })
-        return osmLayer
+        });
+        return osmLayer;
     }
 }
